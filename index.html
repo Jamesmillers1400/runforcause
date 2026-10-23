@@ -35,7 +35,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Vos clés Firebase actuelles
         const firebaseConfig = {
             apiKey: "AIzaSyCE9FMr7yy1UyIjeXz_lGPCRgyI5LcvXQQ",
             authDomain: "runforcause1400.firebaseapp.com",
@@ -49,7 +48,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Initialisation directe de la carte Leaflet sur Yverdon-les-Bains
+        // Initialisation de la carte (Yverdon-les-Bains par défaut)
         var map = L.map('map').setView([46.7785, 6.6412], 14);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -84,6 +83,9 @@
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
 
+                        // Sécurité : on vérifie que les coordonnées existent bien
+                        if (!lat || !lng) return;
+
                         map.setView([lat, lng], 16);
 
                         try {
@@ -97,10 +99,10 @@
                             console.error("Erreur Firebase : ", e);
                         }
                     }, error => {
-                        alert("Erreur GPS : " + error.message);
-                    }, { enableHighAccuracy: true });
+                        console.warn("GPS Warning: ", error.message);
+                    }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
                 } else {
-                    alert("La géolocalisation n'est pas supportée.");
+                    alert("La géolocalisation n'est pas supportée par votre navigateur.");
                 }
             } else {
                 btn.textContent = "Démarrer le Start";
@@ -118,7 +120,7 @@
             }
         };
 
-        // Écoute en temps réel des participants
+        // Écoute en temps réel des participants avec protection anti-plantage
         onSnapshot(collection(db, "test"), (snapshot) => {
             let activeNames = [];
             let currentIds = new Set();
@@ -126,13 +128,17 @@
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const id = docSnap.id;
-                currentIds.add(id);
-                activeNames.push(data.name);
 
-                if (markers[id]) {
-                    markers[id].setLatLng([data.lat, data.lng]);
-                } else {
-                    markers[id] = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`);
+                // On s'assure que les données de latitude et longitude sont valides avant de créer le marqueur
+                if (data && typeof data.lat === 'number' && typeof data.lng === 'number' && data.name) {
+                    currentIds.add(id);
+                    activeNames.push(data.name);
+
+                    if (markers[id]) {
+                        markers[id].setLatLng([data.lat, data.lng]);
+                    } else {
+                        markers[id] = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`);
+                    }
                 }
             });
 
