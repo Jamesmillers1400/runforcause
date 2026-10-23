@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         body { margin: 0; font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100vh; }
-        #controls { padding: 10px; background: #f5f5f5; display: flex; gap: 10px; align-items: center; }
+        #controls { padding: 10px; background: #f5f5f5; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         #map { flex-grow: 1; width: 100%; }
         input, button { padding: 8px 12px; font-size: 14px; }
         button { background: #2E7D32; color: white; border: none; cursor: pointer; border-radius: 4px; }
         button:hover { background: #1b5e20; }
+        #participant-list { font-size: 13px; color: #333; }
     </style>
 </head>
 <body>
@@ -21,16 +22,35 @@
         <input type="text" id="username" placeholder="Votre Prénom" />
         <button id="startBtn" onclick="toggleTracking()">Démarrer le Start</button>
         <span id="status">Statut : Arrêté</span>
+        <div id="participant-list"><b>En ligne :</b> Aucun</div>
     </div>
 
     <div id="map"></div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Initialisation de la carte Leaflet (Centrée par défaut sur Yverdon-les-Bains)
-        var map = L.map('map').setView([46.7785, 6.6412], 13);
+    
+    <!-- Firebase SDK (Modular v9) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // 🔥 REMPLACEZ CES CONFIGURATIONS PAR LES VÔTRES (Récupérées depuis votre projet Firebase gratuit)
+        const firebaseConfig = {
+  apiKey: "AIzaSyCE9FMr7yy1UyIjeXz_lGPCRgyI5LcvXQQ",
+  authDomain: "runforcause1400.firebaseapp.com",
+  projectId: "runforcause1400",
+  storageBucket: "runforcause1400.firebasestorage.app",
+  messagingSenderId: "1074124848233",
+  appId: "1:1074124848233:web:a6e4f84358e9955c70f6f8",
+  measurementId: "G-2E65XQPC84"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Initialisation de la carte Leaflet (Centrée sur Yverdon-les-Bains)
+        var map = L.map('map').setView([46.7785, 6.6412], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
@@ -38,15 +58,16 @@
 
         let tracking = false;
         let watchId = null;
-        let marker = null;
+        let participantId = 'user_' + Math.random().toString(36.substring(2, 9));
+        let markers = {}; // Stocke les marqueurs de chaque participant sur la carte
 
-        function toggleTracking() {
-            const nameInput = document.getElementById('username').value;
+        window.toggleTracking = async function() {
+            const nameInput = document.getElementById('username').value.trim();
             const btn = document.getElementById('startBtn');
             const status = document.getElementById('status');
 
             if (!nameInput) {
-                alert("Veuillez entrer un prénom !");
+                alert("Veuillez entrer un prénom avant de démarrer !");
                 return;
             }
 
@@ -56,22 +77,28 @@
                 btn.textContent = "Arrêter";
                 btn.style.background = "#c62828";
                 status.textContent = "Statut : En direct 🟢";
-                
+                document.getElementById('username').disabled = true;
+
                 if (navigator.geolocation) {
-                    watchId = navigator.geolocation.watchPosition(position => {
+                    watchId = navigator.geolocation.watchPosition(async position => {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
 
-                        if (marker) {
-                            marker.setLatLng([lat, lng]);
-                        } else {
-                            marker = L.marker([lat, lng]).addTo(map).bindPopup(nameInput).openPopup();
+                        // Envoi de la position dans Firestore en temps réel
+                        try {
+                            await setDoc(doc(db, "participants", participantId), {
+                                name: nameInput,
+                                lat: lat,
+                                lng: lng,
+                                updatedAt: Date.now()
+                            });
+                        } catch (e) {
+                            console.error("Erreur d'envoi Firebase : ", e);
                         }
-                        map.setView([lat, lng], 16);
 
-                        // TODO: Envoyer lat, lng et nameInput vers Firebase Firestore ici
                     }, error => {
                         console.error("Erreur GPS : ", error);
+                        alert("Impossible d'accéder au GPS.");
                     }, { enableHighAccuracy: true });
                 } else {
                     alert("La géolocalisation n'est pas supportée par votre navigateur.");
@@ -80,9 +107,49 @@
                 btn.textContent = "Démarrer le Start";
                 btn.style.background = "#2E7D32";
                 status.textContent = "Statut : Arrêté";
+                document.getElementById('username').disabled = false;
+
                 if (watchId) navigator.geolocation.clearWatch(watchId);
+
+                // Supprimer le participant de la base de données lorsqu'il s'arrête
+                try {
+                    await deleteDoc(doc(db, "participants", participantId));
+                } catch (e) {
+                    console.error("Erreur suppression : ", e);
+                }
             }
-        }
+        };
+
+        // Écoute en temps réel de TOUS les participants connectés dans Firestore
+        onSnapshot(collection(db, "participants"), (snapshot) => {
+            let activeNames = [];
+            let currentIds = new Set();
+
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                currentIds.add(id);
+                activeNames.push(data.name);
+
+                // Mettre à jour ou créer le marqueur sur la carte pour chaque participant
+                if (markers[id]) {
+                    markers[id].setLatLng([data.lat, data.lng]);
+                } else {
+                    markers[id] = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`);
+                }
+            });
+
+            // Supprimer de la carte les participants qui se sont déconnectés
+            for (let id in markers) {
+                if (!currentIds.has(id)) {
+                    map.removeLayer(markers[id]);
+                    delete markers[id];
+                }
+            }
+
+            // Mettre à jour la liste textuelle des participants en ligne
+            document.getElementById('participant-list').innerHTML = `<b>En ligne (${activeNames.length}) :</b> ${activeNames.length > 0 ? activeNames.join(', ') : 'Aucun'}`;
+        });
     </script>
 </body>
 </html>
