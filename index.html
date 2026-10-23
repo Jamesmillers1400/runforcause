@@ -86,7 +86,7 @@
 
                         // Envoi de la position dans Firestore en temps réel
                         try {
-                            await setDoc(doc(db, "participants", participantId), {
+                            await setDoc(doc(db, "test", participantId), {
                                 name: nameInput,
                                 lat: lat,
                                 lng: lng,
@@ -113,7 +113,7 @@
 
                 // Supprimer le participant de la base de données lorsqu'il s'arrête
                 try {
-                    await deleteDoc(doc(db, "participants", participantId));
+                    await deleteDoc(doc(db, "test", participantId));
                 } catch (e) {
                     console.error("Erreur suppression : ", e);
                 }
@@ -121,7 +121,7 @@
         };
 
         // Écoute en temps réel de TOUS les participants connectés dans Firestore
-        onSnapshot(collection(db, "participants"), (snapshot) => {
+        onSnapshot(collection(db, "test"), (snapshot) => {
             let activeNames = [];
             let currentIds = new Set();
 
