@@ -4,40 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi en direct - Run for Cause</title>
+    <!-- Intégration de Leaflet CSS pour la carte interactive -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             background-color: #f8fafc;
             color: #1e293b;
         }
         h1 {
             text-align: center;
-            font-size: 22px;
+            font-size: 20px;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Style de la carte interactive */
+        #map {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        /* Style de la liste des participants */
+        .sidebar {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .participant-card {
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #10b981;
+        }
+        .participant-name {
+            font-weight: bold;
+            font-size: 15px;
             color: #0f172a;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        th {
-            background-color: #10b981;
-            color: white;
-            font-size: 14px;
-        }
-        td {
-            font-size: 14px;
+        .participant-info {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -45,60 +69,11 @@
 
     <h1>Suivi en Direct - Marche & Course 🏃‍♂️🚶‍♀️</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Participant</th>
-                <th>Distance</th>
-                <th>Dernière mise à jour</th>
-            </tr>
-        </thead>
-        <tbody id="participants-list">
-            <tr>
-                <td colspan="3" style="text-align: center;">Chargement des données...</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <!-- Carte interactive à gauche -->
+        <div id="map"></div>
 
-    <script>
-        // URL de votre base de données Firebase Realtime Database
-        const FIREBASE_URL = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/participants.json";
-
-        async function fetchParticipants() {
-            try {
-                const response = await fetch(FIREBASE_URL);
-                const data = await response.json();
-                const tbody = document.getElementById('participants-list');
-                tbody.innerHTML = '';
-
-                if (!data) {
-                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Aucun participant en cours de route.</td></tr>';
-                    return;
-                }
-
-                // Parcourir les participants enregistrés dans Firebase
-                Object.keys(data).forEach(key => {
-                    const p = data[key];
-                    const row = document.createElement('tr');
-                    
-                    const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
-
-                    row.innerHTML = `
-                        <td><strong>${p.name || 'Anonyme'}</strong></td>
-                        <td>${p.distanceKm || '0.000'} km</td>
-                        <td>${updateTime}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données :", error);
-            }
-        }
-
-        // Lancer la récupération immédiatement, puis actualiser toutes les 5 secondes
-        fetchParticipants();
-        setInterval(fetchParticipants, 5000);
-    </script>
-
-</body>
-</html>
+        <!-- Liste des participants à droite -->
+        <div class="sidebar">
+            <h3 style="margin-top:0; font-size:16px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">Participants en route</h3>
+            <div id="participants-list">
