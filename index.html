@@ -102,7 +102,6 @@
 
         async function fetchParticipants() {
             try {
-                // Appel direct vers Firebase sans paramètre parasite
                 const response = await fetch(FIREBASE_URL);
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP: ${response.status}`);
@@ -121,53 +120,15 @@
                 Object.keys(data).forEach(key => {
                     const p = data[key];
                     const name = p.name || 'Anonyme';
-                    const distance = p.distanceKm ? p.distanceKm.toFixed(3) : '0.000';
+                    
+                    // Correction sécurisée : conversion forcée en nombre avant .toFixed()
+                    const distanceNum = p.distanceKm !== undefined && p.distanceKm !== null ? Number(p.distanceKm) : 0;
+                    const distance = distanceNum.toFixed(3);
+
                     const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
                     // Carte du participant
                     const card = document.createElement('div');
                     card.className = 'participant-card';
                     card.innerHTML = `
-                        <div class="participant-name">${name}</div>
-                        <div class="participant-info">
-                            📍 Distance : <strong>${distance} km</strong><br>
-                            ⏱️ Mise à jour : ${updateTime}
-                        </div>
-                    `;
-                    listContainer.appendChild(card);
-
-                    // Gestion du point sur la carte
-                    if (p.latitude && p.longitude) {
-                        const latLng = [p.latitude, p.longitude];
-                        bounds.push(latLng);
-
-                        if (markers[key]) {
-                            markers[key].setLatLng(latLng);
-                            markers[key].getPopup().setContent(`<b>${name}</b><br>${distance} km`);
-                        } else {
-                            const marker = L.marker(latLng).addTo(map)
-                                .bindPopup(`<b>${name}</b><br>${distance} km`);
-                            markers[key] = marker;
-                        }
-                    }
-                });
-
-                if (bounds.length > 0 && !window.initialZoomDone) {
-                    map.fitBounds(bounds, { padding: [50, 50] });
-                    window.initialZoomDone = true;
-                }
-
-                setTimeout(() => { map.invalidateSize(); }, 200);
-
-            } catch (error) {
-                console.error("Erreur de récupération :", error);
-                document.getElementById('participants-list').innerHTML = `<p style="color: red; text-align: center; font-size: 13px;">Erreur : ${error.message}</p>`;
-            }
-        }
-
-        fetchParticipants();
-        setInterval(fetchParticipants, 5000);
-    </script>
-
-</body>
-</html>
+                        <div class="participant
