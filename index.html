@@ -118,7 +118,7 @@
                         const distance = distanceNum.toFixed(3);
                         const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
-                        // Création de la carte du participant dans la liste
+                        // Affichage dans la liste
                         const card = document.createElement('div');
                         card.className = 'participant-card';
                         card.innerHTML = `
@@ -130,7 +130,7 @@
                         `;
                         listContainer.appendChild(card);
 
-                        // Gestion sécurisée du point GPS sur la carte
+                        // Gestion sécurisée du point GPS avec un cercle visuel (100% fiable)
                         if (p.latitude !== undefined && p.longitude !== undefined && p.latitude !== null && p.longitude !== null) {
                             const lat = Number(p.latitude);
                             const lng = Number(p.longitude);
@@ -143,15 +143,22 @@
                                     markers[key].setLatLng(latLng);
                                     markers[key].getPopup().setContent(`<b>${name}</b><br>${distance} km`);
                                 } else {
-                                    markers[key] = L.marker(latLng).addTo(map)
-                                        .bindPopup(`<b>${name}</b><br>${distance} km`);
+                                    // Utilisation d'un cercle graphique à la place de l'icône d'épingle cassée
+                                    markers[key] = L.circleMarker(latLng, {
+                                        radius: 10,
+                                        fillColor: '#10b981',
+                                        color: '#ffffff',
+                                        weight: 3,
+                                        fillOpacity: 1
+                                    }).addTo(map).bindPopup(`<b>${name}</b><br>${distance} km`);
                                 }
                             }
                         }
                     });
 
-                    if (bounds.length > 0) {
+                    if (bounds.length > 0 && !window.zoomDone) {
                         map.fitBounds(bounds, { padding: [50, 50] });
+                        window.zoomDone = true;
                     }
 
                     setTimeout(() => { map.invalidateSize(); }, 100);
