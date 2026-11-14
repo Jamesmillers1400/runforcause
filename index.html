@@ -3,154 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi en Direct - Live Track</title>
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Suivi en direct - Run for Cause</title>
     <style>
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        #controls { padding: 15px; background: #f5f5f5; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; border-bottom: 2px solid #ccc; }
-        #map { width: 100%; height: calc(100vh - 70px); position: absolute; }
-        input, button { padding: 10px 15px; font-size: 16px; }
-        button { background: #2E7D32; color: white; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
-        button:hover { background: #1b5e20; }
-        #participant-list { font-size: 14px; color: #333; width: 100%; font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            color: #0f172a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #10b981;
+            color: white;
+            font-size: 14px;
+        }
+        td {
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
-    <div id="controls">
-        <input type="text" id="username" placeholder="Votre Prénom" />
-        <button id="startBtn" onclick="toggleTracking()">Démarrer le Start</button>
-        <span id="status">Statut : Arrêté</span>
-        <div id="participant-list">En ligne : Aucun</div>
-    </div>
+    <h1>Suivi en Direct - Marche & Course 🏃‍♂️🚶‍♀️</h1>
 
-    <div id="map"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Participant</th>
+                <th>Distance</th>
+                <th>Dernière mise à jour</th>
+            </tr>
+        </thead>
+        <tbody id="participants-list">
+            <tr>
+                <td colspan="3" style="text-align: center;">Chargement des données...</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <!-- Firebase SDK (Modular v9) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <script>
+        // URL de votre base de données Firebase Realtime Database
+        const FIREBASE_URL = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/participants.json";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCE9FMr7yy1UyIjeXz_lGPCRgyI5LcvXQQ",
-            authDomain: "runforcause1400.firebaseapp.com",
-            projectId: "runforcause1400",
-            storageBucket: "runforcause1400.firebasestorage.app",
-            messagingSenderId: "1074124848233",
-            appId: "1:1074124848233:web:a6e4f84358e9955c70f6f8",
-            measurementId: "G-2E65XQPC84"
-        };
+        async function fetchParticipants() {
+            try {
+                const response = await fetch(FIREBASE_URL);
+                const data = await response.json();
+                const tbody = document.getElementById('participants-list');
+                tbody.innerHTML = '';
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+                if (!data) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Aucun participant en cours de route.</td></tr>';
+                    return;
+                }
 
-        // Initialisation de la carte (Yverdon-les-Bains par défaut)
-        var map = L.map('map').setView([46.7785, 6.6412], 14);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+                // Parcourir les participants enregistrés dans Firebase
+                Object.keys(data).forEach(key => {
+                    const p = data[key];
+                    const row = document.createElement('tr');
+                    
+                    const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
-        let tracking = false;
-        let watchId = null;
-        let participantId = 'user_' + Math.random().toString(36).substring(2, 9);
-        let markers = {};
-
-        window.toggleTracking = async function() {
-            const nameInput = document.getElementById('username').value.trim();
-            const btn = document.getElementById('startBtn');
-            const status = document.getElementById('status');
-
-            if (!nameInput) {
-                alert("Veuillez entrer un prénom avant de démarrer !");
-                return;
+                    row.innerHTML = `
+                        <td><strong>${p.name || 'Anonyme'}</strong></td>
+                        <td>${p.distanceKm || '0.000'} km</td>
+                        <td>${updateTime}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données :", error);
             }
+        }
 
-            tracking = !tracking;
-
-            if (tracking) {
-                btn.textContent = "Arrêter";
-                btn.style.background = "#c62828";
-                status.textContent = "Statut : En direct 🟢";
-                document.getElementById('username').disabled = true;
-
-                if (navigator.geolocation) {
-                    watchId = navigator.geolocation.watchPosition(async position => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-
-                        // Sécurité : on vérifie que les coordonnées existent bien
-                        if (!lat || !lng) return;
-
-                        map.setView([lat, lng], 16);
-
-                        try {
-                            await setDoc(doc(db, "test", participantId), {
-                                name: nameInput,
-                                lat: lat,
-                                lng: lng,
-                                updatedAt: Date.now()
-                            });
-                        } catch (e) {
-                            console.error("Erreur Firebase : ", e);
-                        }
-                    }, error => {
-                        console.warn("GPS Warning: ", error.message);
-                    }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
-                } else {
-                    alert("La géolocalisation n'est pas supportée par votre navigateur.");
-                }
-            } else {
-                btn.textContent = "Démarrer le Start";
-                btn.style.background = "#2E7D32";
-                status.textContent = "Statut : Arrêté";
-                document.getElementById('username').disabled = false;
-
-                if (watchId) navigator.geolocation.clearWatch(watchId);
-
-                try {
-                    await deleteDoc(doc(db, "test", participantId));
-                } catch (e) {
-                    console.error("Erreur suppression : ", e);
-                }
-            }
-        };
-
-        // Écoute en temps réel des participants avec protection anti-plantage
-        onSnapshot(collection(db, "test"), (snapshot) => {
-            let activeNames = [];
-            let currentIds = new Set();
-
-            snapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-                const id = docSnap.id;
-
-                // On s'assure que les données de latitude et longitude sont valides avant de créer le marqueur
-                if (data && typeof data.lat === 'number' && typeof data.lng === 'number' && data.name) {
-                    currentIds.add(id);
-                    activeNames.push(data.name);
-
-                    if (markers[id]) {
-                        markers[id].setLatLng([data.lat, data.lng]);
-                    } else {
-                        markers[id] = L.marker([data.lat, data.lng]).addTo(map).bindPopup(`<b>${data.name}</b>`);
-                    }
-                }
-            });
-
-            for (let id in markers) {
-                if (!currentIds.has(id)) {
-                    map.removeLayer(markers[id]);
-                    delete markers[id];
-                }
-            }
-
-            document.getElementById('participant-list').innerHTML = `En ligne (${activeNames.length}) : ${activeNames.length > 0 ? activeNames.join(', ') : 'Aucun'}`;
-        });
+        // Lancer la récupération immédiatement, puis actualiser toutes les 5 secondes
+        fetchParticipants();
+        setInterval(fetchParticipants, 5000);
     </script>
+
 </body>
 </html>
