@@ -102,8 +102,11 @@
 
         async function fetchParticipants() {
             try {
-                // Ajout d'un paramètre temporel pour éviter le cache du navigateur
-                const response = await fetch(FIREBASE_URL + '?t=' + new Date().getTime());
+                // Appel direct vers Firebase sans paramètre parasite
+                const response = await fetch(FIREBASE_URL);
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
                 const data = await response.json();
                 const listContainer = document.getElementById('participants-list');
                 listContainer.innerHTML = '';
@@ -121,7 +124,7 @@
                     const distance = p.distanceKm ? p.distanceKm.toFixed(3) : '0.000';
                     const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
-                    // Création de la carte du participant
+                    // Carte du participant
                     const card = document.createElement('div');
                     card.className = 'participant-card';
                     card.innerHTML = `
@@ -154,16 +157,14 @@
                     window.initialZoomDone = true;
                 }
 
-                // Force Leaflet à recalculer l'affichage de la carte dans l'iframe
                 setTimeout(() => { map.invalidateSize(); }, 200);
 
             } catch (error) {
                 console.error("Erreur de récupération :", error);
-                document.getElementById('participants-list').innerHTML = '<p style="color: red; text-align: center;">Erreur de chargement.</p>';
+                document.getElementById('participants-list').innerHTML = `<p style="color: red; text-align: center; font-size: 13px;">Erreur : ${error.message}</p>`;
             }
         }
 
-        // Lancement immédiat puis actualisation toutes les 5 secondes
         fetchParticipants();
         setInterval(fetchParticipants, 5000);
     </script>
