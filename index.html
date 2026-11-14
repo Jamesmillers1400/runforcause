@@ -130,24 +130,28 @@
                         `;
                         listContainer.appendChild(card);
 
-                        // Gestion du point GPS sur la carte
-                        if (p.latitude && p.longitude) {
-                            const latLng = [Number(p.latitude), Number(p.longitude)];
-                            bounds.push(latLng);
+                        // Gestion sécurisée du point GPS sur la carte
+                        if (p.latitude !== undefined && p.longitude !== undefined && p.latitude !== null && p.longitude !== null) {
+                            const lat = Number(p.latitude);
+                            const lng = Number(p.longitude);
 
-                            if (markers[key]) {
-                                markers[key].setLatLng(latLng);
-                                markers[key].getPopup().setContent(`<b>${name}</b><br>${distance} km`);
-                            } else {
-                                markers[key] = L.marker(latLng).addTo(map)
-                                    .bindPopup(`<b>${name}</b><br>${distance} km`);
+                            if (!isNaN(lat) && !isNaN(lng) && (lat !== 0 || lng !== 0)) {
+                                const latLng = [lat, lng];
+                                bounds.push(latLng);
+
+                                if (markers[key]) {
+                                    markers[key].setLatLng(latLng);
+                                    markers[key].getPopup().setContent(`<b>${name}</b><br>${distance} km`);
+                                } else {
+                                    markers[key] = L.marker(latLng).addTo(map)
+                                        .bindPopup(`<b>${name}</b><br>${distance} km`);
+                                }
                             }
                         }
                     });
 
-                    if (bounds.length > 0 && !window.zoomDone) {
+                    if (bounds.length > 0) {
                         map.fitBounds(bounds, { padding: [50, 50] });
-                        window.zoomDone = true;
                     }
 
                     setTimeout(() => { map.invalidateSize(); }, 100);
@@ -158,7 +162,6 @@
                 });
         }
 
-        // Charger immédiatement puis actualiser toutes les 5 secondes
         loadParticipants();
         setInterval(loadParticipants, 5000);
     </script>
