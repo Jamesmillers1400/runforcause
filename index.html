@@ -47,6 +47,34 @@
             height: 400px;
             overflow-y: auto;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar-content {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        /* En-cadré du total général récolté */
+        .global-total-box {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        }
+        .global-total-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+        .global-total-amount {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 2px;
         }
         .participant-card {
             background: #f1f5f9;
@@ -60,15 +88,55 @@
         .participant-card:hover {
             background: #e2e8f0;
         }
+        .participant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
         .participant-name {
             font-weight: bold;
             font-size: 15px;
             color: #0f172a;
         }
+        .pledge-edit-btn {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .pledge-edit-btn:hover {
+            background-color: #bae6fd;
+        }
         .participant-info {
             font-size: 13px;
             color: #475569;
-            margin-top: 4px;
+            line-height: 1.4;
+        }
+        .admin-section {
+            margin-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            text-align: center;
+        }
+        .admin-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .admin-btn:hover {
+            background-color: #dc2626;
         }
     </style>
 </head>
@@ -77,10 +145,26 @@
     <h1>Suivi en Direct - Marche & Course 🏃‍♂️🚶‍♀️</h1>
 
     <div class="main-container">
+        <!-- Carte interactive -->
         <div id="map"></div>
+
+        <!-- Liste des participants et panneau admin -->
         <div class="sidebar">
-            <h3 style="margin-top:0; font-size:16px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">Participants en route</h3>
-            <div id="participants-list">Chargement des données...</div>
+            <div class="sidebar-content">
+                <!-- Total Général Récolté -->
+                <div class="global-total-box">
+                    <div class="global-total-title">Total récolté pour la cause</div>
+                    <div id="global-amount" class="global-total-amount">0.00 CHF</div>
+                </div>
+
+                <h3 style="margin-top:0; font-size:15px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">Participants en route</h3>
+                <div id="participants-list">Chargement des données...</div>
+            </div>
+
+            <!-- Bouton Administrateur -->
+            <div class="admin-section">
+                <button class="admin-btn" onclick="resetAllParticipants()">🔒 Mode Admin : Tout effacer</button>
+            </div>
         </div>
     </div>
 
@@ -93,7 +177,7 @@
         // Initialisation de la carte centrée sur Yverdon-les-Bains
         const map = L.map('map').setView([46.7785, 6.6412], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}inspect/{x}/{y}.png'.replace('inspect', ''), {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
@@ -107,12 +191,22 @@
                     const listContainer = document.getElementById('participants-list');
                     listContainer.innerHTML = '';
 
+                    // Nettoyer les marqueurs obsolètes
+                    Object.keys(markers).forEach(id => {
+                        if (!data || !data[id]) {
+                            map.removeLayer(markers[id]);
+                            delete markers[id];
+                        }
+                    });
+
                     if (!data) {
-                        listContainer.innerHTML = '<p style="text-align: center; color: #64748b;">Aucun participant actif pour le moment.</p>';
+                        listContainer.innerHTML = '<p style="text-align: center; color: #64748b; font-size: 13px;">Aucun participant actif pour le moment.</p>';
+                        document.getElementById('global-amount').innerText = "0.00 CHF";
                         return;
                     }
 
                     let bounds = [];
+                    let totalGlobalCollected = 0;
 
                     Object.keys(data).forEach(key => {
                         const p = data[key];
@@ -123,7 +217,11 @@
                         const distance = distanceNum.toFixed(3);
                         const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
-                        // Récupération souple des coordonnées (latitude/lat, longitude/lng)
+                        // Gestion du don par km (par défaut 0 si non défini)
+                        const pledgePerKm = (p.pledgePerKm !== undefined && p.pledgePerKm !== null) ? Number(p.pledgePerKm) : 0;
+                        const participantRaised = distanceNum * pledgePerKm;
+                        totalGlobalCollected += participantRaised;
+
                         const rawLat = p.latitude !== undefined ? p.latitude : p.lat;
                         const rawLng = p.longitude !== undefined ? p.longitude : p.lng;
 
@@ -144,18 +242,22 @@
                         const card = document.createElement('div');
                         card.className = 'participant-card';
                         card.innerHTML = `
-                            <div class="participant-name">${name}</div>
+                            <div class="participant-header">
+                                <span class="participant-name">${name}</span>
+                                <button class="pledge-edit-btn" onclick="updatePledge(event, '${key}', '${name}', ${pledgePerKm})">💰 ${pledgePerKm} CHF/km</button>
+                            </div>
                             <div class="participant-info">
                                 📍 Distance : <strong>${distance} km</strong><br>
+                                💵 Récolté : <strong style="color: #059669;">${participantRaised.toFixed(2)} CHF</strong><br>
                                 ⏱️ Mise à jour : ${updateTime}
                                 ${hasValidCoords ? '<br><span style="color: #059669; font-size: 11px;">🔍 Cliquer pour centrer sur la carte</span>' : ''}
                             </div>
                         `;
 
-                        // Action au clic : centre la carte sur le participant et ouvre sa popup
+                        // Action au clic sur la carte pour centrer la vue
                         if (hasValidCoords) {
                             card.addEventListener('click', () => {
-                                map.setView(latLng, 16); // Zoom rapproché sur le participant
+                                map.setView(latLng, 16);
                                 if (markers[key]) {
                                     markers[key].openPopup();
                                 }
@@ -164,11 +266,12 @@
 
                         listContainer.appendChild(card);
 
-                        // Gestion du marqueur sur la carte
+                        // Gestion du marqueur circulaire sur la carte
                         if (hasValidCoords) {
+                            const popupContent = `<b>${name}</b><br>${distance} km<br>💵 ${participantRaised.toFixed(2)} CHF`;
                             if (markers[key]) {
                                 markers[key].setLatLng(latLng);
-                                markers[key].getPopup().setContent(`<b>${name}</b><br>${distance} km`);
+                                markers[key].getPopup().setContent(popupContent);
                             } else {
                                 markers[key] = L.circleMarker(latLng, {
                                     radius: 10,
@@ -176,15 +279,13 @@
                                     color: '#ffffff',
                                     weight: 3,
                                     fillOpacity: 1
-                                }).addTo(map).bindPopup(`<b>${name}</b><br>${distance} km`);
+                                }).addTo(map).bindPopup(popupContent);
                             }
                         }
                     });
 
-                    if (bounds.length > 0 && !window.zoomDone) {
-                        map.fitBounds(bounds, { padding: [50, 50] });
-                        window.zoomDone = true;
-                    }
+                    // Mettre à jour l'affichage du total général
+                    document.getElementById('global-amount').innerText = `${totalGlobalCollected.toFixed(2)} CHF`;
 
                     setTimeout(() => { map.invalidateSize(); }, 100);
                 })
@@ -192,6 +293,64 @@
                     console.error("Erreur Firebase :", error);
                     document.getElementById('participants-list').innerHTML = '<p style="color: red; text-align: center; font-size: 13px;">Erreur de connexion.</p>';
                 });
+        }
+
+        // Fonction pour modifier le montant par km d'un participant
+        function updatePledge(event, key, name, currentPledge) {
+            event.stopPropagation(); // Empêche de déclencher le centrage de la carte au clic sur le bouton
+            const input = prompt(`Entrez le montant du don par kilomètre (en CHF) pour ${name} :`, currentPledge);
+            if (input !== null) {
+                const newPledge = parseFloat(input);
+                if (!isNaN(newPledge) && newPledge >= 0) {
+                    // Mise à jour de la valeur dans Firebase via PATCH
+                    fetch(`https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/participants/${key}.json`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pledgePerKm: newPledge })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            loadParticipants();
+                        } else {
+                            alert("Erreur lors de la mise à jour du don.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Erreur réseau :", err);
+                        alert("Erreur de connexion.");
+                    });
+                } else {
+                    alert("Veuillez entrer un nombre valide.");
+                }
+            }
+        }
+
+        // Fonction Admin : Supprimer tous les participants
+        function resetAllParticipants() {
+            const password = prompt("Entrez le code administrateur :");
+            if (password === "RunForCause") {
+                if (confirm("⚠️ Êtes-vous sûr de vouloir supprimer TOUS les participants et réinitialiser la course à zéro ?")) {
+                    fetch(FIREBASE_URL, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Base de données réinitialisée avec succès !");
+                            Object.values(markers).forEach(marker => map.removeLayer(marker));
+                            markers = {};
+                            loadParticipants();
+                        } else {
+                            alert("Erreur lors de la réinitialisation.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erreur admin :", error);
+                        alert("Erreur de connexion.");
+                    });
+                }
+            } else if (password !== null) {
+                alert("❌ Code administrateur incorrect.");
+            }
         }
 
         loadParticipants();
