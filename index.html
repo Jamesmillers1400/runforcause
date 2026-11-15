@@ -177,7 +177,7 @@
         // Initialisation de la carte centrée sur Yverdon-les-Bains
         const map = L.map('map').setView([46.7785, 6.6412], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}inspect/{x}/{y}.png'.replace('inspect', ''), {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
@@ -191,7 +191,7 @@
                     const listContainer = document.getElementById('participants-list');
                     listContainer.innerHTML = '';
 
-                    // Nettoyer les marqueurs obsolètes
+                    // Nettoyer les marqueurs obsolètes de la carte
                     Object.keys(markers).forEach(id => {
                         if (!data || !data[id]) {
                             map.removeLayer(markers[id]);
@@ -217,7 +217,7 @@
                         const distance = distanceNum.toFixed(3);
                         const updateTime = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '-';
 
-                        // Gestion du don par km (par défaut 0 si non défini)
+                        // Gestion du don par km (0 par défaut)
                         const pledgePerKm = (p.pledgePerKm !== undefined && p.pledgePerKm !== null) ? Number(p.pledgePerKm) : 0;
                         const participantRaised = distanceNum * pledgePerKm;
                         totalGlobalCollected += participantRaised;
@@ -297,12 +297,11 @@
 
         // Fonction pour modifier le montant par km d'un participant
         function updatePledge(event, key, name, currentPledge) {
-            event.stopPropagation(); // Empêche de déclencher le centrage de la carte au clic sur le bouton
+            event.stopPropagation(); // Empêche le clic de propager et centrer la carte
             const input = prompt(`Entrez le montant du don par kilomètre (en CHF) pour ${name} :`, currentPledge);
             if (input !== null) {
                 const newPledge = parseFloat(input);
                 if (!isNaN(newPledge) && newPledge >= 0) {
-                    // Mise à jour de la valeur dans Firebase via PATCH
                     fetch(`https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/participants/${key}.json`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
@@ -345,7 +344,7 @@
                     })
                     .catch(error => {
                         console.error("Erreur admin :", error);
-                        alert("Erreur de connexion.");
+                        alert("Erreur de connexion avec le serveur.");
                     });
                 }
             } else if (password !== null) {
