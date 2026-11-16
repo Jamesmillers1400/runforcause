@@ -35,15 +35,15 @@
                 flex-direction: row;
             }
             #map {
-                height: 450px !important;
+                height: 480px !important;
             }
             .sidebar {
-                height: 450px !important;
+                height: 480px !important;
             }
         }
         #map {
             width: 100%;
-            height: 310px; /* Hauteur optimisée pour smartphones */
+            height: 310px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 1;
@@ -59,17 +59,16 @@
             justify-content: space-between;
         }
         .sidebar-content {
-            max-height: 280px;
+            max-height: 300px;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* Défilement fluide sur iOS */
+            -webkit-overflow-scrolling: touch;
             padding-right: 2px;
         }
         @media (min-width: 768px) {
             .sidebar-content {
-                max-height: 310px;
+                max-height: 330px;
             }
         }
-        /* En-cadré du total général récolté */
         .global-total-box {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
@@ -95,10 +94,8 @@
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 8px;
+            border: 1px solid #e2e8f0;
             border-left: 4px solid #10b981;
-            border-top: 1px solid #e2e8f0;
-            border-right: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
         }
@@ -130,6 +127,27 @@
             font-size: 13px;
             color: #475569;
             line-height: 1.4;
+        }
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .pay-btn {
+            background-color: #059669;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background-color: #047857;
         }
         .admin-section {
             margin-top: 12px;
@@ -254,13 +272,17 @@
                         card.innerHTML = `
                             <div class="participant-header">
                                 <span class="participant-name">${name}</span>
-                                <button class="pledge-edit-btn" onclick="updatePledge(event, '${key}', '${name}', ${pledgePerKm})">💰 ${pledgePerKm} CHF/km</button>
+                                <button class="pledge-edit-btn" onclick="updatePledge(event, '${key}', '${name}', ${pledgePerKm})" title="Modifier le don par km">💰 ${pledgePerKm} CHF/km</button>
                             </div>
                             <div class="participant-info">
                                 📍 Distance : <strong>${distance} km</strong><br>
                                 💵 Récolté : <strong style="color: #059669;">${participantRaised.toFixed(2)} CHF</strong><br>
                                 ⏱️ Maj : ${updateTime}
                                 ${hasValidCoords ? '<br><span style="color: #059669; font-size: 11px;">🔍 Cliquer pour centrer sur la carte</span>' : ''}
+                            </div>
+                            <div class="card-actions">
+                                <span style="font-size: 11px; color: #64748b;">Soutenir ce coureur</span>
+                                <button class="pay-btn" onclick="payForParticipant(event, '${name}', ${participantRaised.toFixed(2)})">💳 Payer (${participantRaised.toFixed(2)} CHF)</button>
                             </div>
                         `;
 
@@ -270,7 +292,6 @@
                                 if (markers[key]) {
                                     markers[key].openPopup();
                                 }
-                                // Remonter légèrement la vue vers le haut sur mobile pour voir la carte
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                             });
                         }
@@ -330,6 +351,14 @@
                     alert("Veuillez entrer un nombre valide.");
                 }
             }
+        }
+
+        function payForParticipant(event, participantName, amount) {
+            event.stopPropagation();
+            // Remplacez cette URL par votre lien de paiement direct (Stripe ou Wix acceptant cartes & TWINT)
+            const paymentBaseUrl = "https://www.runforcause.ch/faire-un-don";
+            const finalPaymentUrl = `${paymentBaseUrl}?coureur=${encodeURIComponent(participantName)}&montant=${amount}`;
+            window.open(finalPaymentUrl, '_blank');
         }
 
         function resetAllParticipants() {
