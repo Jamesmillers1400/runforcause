@@ -16,7 +16,7 @@
       margin: 0;
       padding: 15px;
     }
-    .dashboard-wrapper { max-width: 800px; margin: 0 auto; }
+    .dashboard-wrapper { max-width: 820px; margin: 0 auto; }
     h2 { text-align: center; color: #0f172a; margin-bottom: 20px; font-size: 22px; }
 
     /* Bannière de fin d'événement */
@@ -56,14 +56,65 @@
       margin: 0;
     }
 
-    .action-bar { display: flex; gap: 10px; margin-bottom: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    .btn-admin { background: #64748b; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .action-bar-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-runner {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 14px;
+    }
+    .btn-runner:hover { background: #059669; }
+    .btn-my-profile {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 14px;
+    }
+    .btn-my-profile:hover { background: #1d4ed8; }
+    .btn-admin {
+      background: #64748b;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 14px;
+    }
     .btn-admin:hover { background: #475569; }
 
-    .btn-runner-login { background: #3b82f6; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-    .btn-runner-login:hover { background: #2563eb; }
-
-    .card-box { background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #cbd5e1; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .card-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
     .card-box h3 { margin-top: 0; font-size: 17px; color: #0f172a; margin-bottom: 12px; }
 
     #map {
@@ -74,49 +125,242 @@
       z-index: 1;
     }
 
-    .leaderboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-    .search-input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; width: 190px; font-size: 14px; box-sizing: border-box; }
+    .leaderboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      width: 190px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
     .search-input:focus { border-color: #10b981; }
 
-    .runner-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 8px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.2s; }
+    .runner-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
     .runner-row:hover { background: #f8fafc; border-radius: 8px; }
     .runner-row:last-child { border-bottom: none; }
 
-    /* Modales */
-    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 10px; box-sizing: border-box; }
-    .modal-content { background: white; padding: 20px; border-radius: 12px; width: 100%; max-width: 480px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; box-sizing: border-box; }
-    .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #64748b; }
-    .form-group { margin-bottom: 15px; }
+    /* Modales centrées sur PC et mobile */
+    .modal {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    .modal-content {
+      background: white;
+      padding: 22px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      position: relative;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      max-height: 88vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .modal-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      margin: 0 0 14px 0;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      color: #64748b;
+    }
+    .close-btn:hover { color: #0f172a; }
+    .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; color: #334155; }
-    .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
-    .submit-btn { width: 100%; background: #10b981; color: white; padding: 11px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    .submit-btn {
+      width: 100%;
+      background: #10b981;
+      color: white;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
     .submit-btn:hover { background: #059669; }
-    .btn-danger { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-outline {
+      width: 100%;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #93c5fd;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .btn-outline:hover { background: #dbeafe; }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
     .btn-danger:hover { background: #dc2626; }
-    .btn-primary { background: #3b82f6; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-warning {
+      background: #d97706;
+      color: white;
+      border: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-warning:hover { background: #b45309; }
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
     .btn-primary:hover { background: #2563eb; }
-    .btn-secondary { background: #64748b; color: white; border: none; padding: 11px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; width: 100%; margin-top: 10px; }
+    .btn-secondary {
+      background: #64748b;
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      width: 100%;
+      margin-top: 10px;
+    }
     .btn-secondary:hover { background: #475569; }
 
-    .password-strength {
-      font-size: 12px;
-      font-weight: bold;
-      margin-top: 4px;
-      display: block;
+    /* Fiche Participant */
+    .connected-badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+      letter-spacing: 0.4px;
+    }
+    .detail-grid {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 13px;
+    }
+    .detail-item:last-child { border-bottom: none; }
+    .detail-label { color: #475569; font-weight: 600; }
+    .detail-value { color: #0f172a; font-weight: 700; text-align: right; }
+
+    .progress-track-bar {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-track-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #3b82f6);
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.3s ease;
     }
 
-    .gps-diagnostic-box {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 8px 10px;
+    /* Profil de dénivelé */
+    .elevation-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+    }
+    .elevation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
       font-size: 12px;
       color: #334155;
-      margin-bottom: 12px;
-      word-break: break-word;
+      font-weight: 600;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    #elevationCanvas {
+      width: 100%;
+      height: 145px;
+      display: block;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+    .elevation-caption {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 6px;
     }
 
     .admin-checkbox-list {
-      max-height: 120px;
+      max-height: 135px;
       overflow-y: auto;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
@@ -127,10 +371,28 @@
     .admin-checkbox-item {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
       font-size: 13px;
       padding: 4px 0;
       color: #334155;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .admin-checkbox-item:last-child { border-bottom: none; }
+    .admin-checkbox-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .small-link-btn {
+      background: none;
+      border: none;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -141,85 +403,95 @@
 
     <!-- Bannière de fin d'événement -->
     <div id="eventEndedBanner" class="event-ended-banner">
-      <h1>🏁 Fin d'événement !</h1>
-      <p>Merci à toutes et à tous pour votre participation exceptionnelle !</p>
+      <h1>🏁 Fin d'événement — Run for Cause !</h1>
+      <p>Merci à toutes et à tous pour votre participation sur le site Run for Cause !</p>
     </div>
 
     <!-- Cagnotte Globale -->
     <div class="global-pot-card">
-      <h3>💰 Cagnotte Totale pour l'Association</h3>
+      <h3>💰 Cagnotte Totale — Run for Cause</h3>
       <p class="global-pot-amount" id="globalTotalPot">0.00 CHF</p>
     </div>
 
+    <!-- Barre d'actions -->
     <div class="action-bar">
-      <button class="btn-runner-login" onclick="openRunnerAuthModal()">🏃‍♂️ Espace Coureur (Connexion / Inscription)</button>
-      <button class="btn-admin" onclick="triggerAdminMenu()">🔐 Administration</button>
-    </div>
-
-    <!-- Panneau de Suivi Actif pour le Coureur Connecté -->
-    <div id="activeRunnerPanel" class="card-box" style="display: none; background: #ecfdf5; border-color: #10b981;">
-      <h3 style="color: #047857;">🟢 Mon Suivi en Direct (<span id="connectedRunnerName"></span>)</h3>
-      <p>Temps écoulé : <b id="resilientTimer">00:00:00</b></p>
-      <p>Distance enregistrée : <b id="resilientDistance">0.00 km</b></p>
-      <div id="gpsDiagnosticText" class="gps-diagnostic-box">État GPS : en attente de démarrage</div>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button onclick="toggleTracking()" id="toggleTrackBtn" class="submit-btn" style="background: #10b981; flex: 1; min-width: 160px;">Démarrer mon suivi</button>
-        <button onclick="diagnosticGeoloc()" class="btn-primary" style="font-size: 13px;">Tester GPS</button>
-        <button onclick="logoutRunner()" class="btn-danger">Se déconnecter</button>
+      <div class="action-bar-left">
+        <button id="runnerPortalBtn" class="btn-runner" onclick="openRunnerAuthModal(false)">
+          🏃‍♂️ Coureur / Marcheur
+        </button>
+        <button id="myRunnerSheetBtn" class="btn-my-profile" style="display: none;" onclick="openLoggedRunnerDetail()">
+          👤 Ma fiche participant
+        </button>
       </div>
+      <button class="btn-admin" onclick="triggerAdminMenu()">⚙️ Paramètres</button>
     </div>
 
     <!-- Carte Interactive -->
     <div class="card-box" id="mapCardBox">
-      <h3>📍 Suivi GPS en Direct</h3>
+      <h3>📍 Suivi en Direct — Run for Cause</h3>
       <div id="map"></div>
     </div>
 
     <!-- Classement -->
     <div class="card-box">
       <div class="leaderboard-header">
-        <h3>🏆 Classement des Coureurs</h3>
+        <h3>🏆 Classement des Participants — Run for Cause</h3>
         <input type="text" id="runnerSearchInput" placeholder="Rechercher..." oninput="filterLeaderboard()" class="search-input">
       </div>
       <div id="leaderboardList">
-        <p style="color: #64748b; text-align: center;">Chargement des coureurs...</p>
+        <p style="color: #64748b; text-align: center;">Chargement des participants Run for Cause...</p>
       </div>
     </div>
   </div>
 
-  <!-- Modal Connexion / Inscription Coureur -->
-  <div id="runnerAuthModal" class="modal" style="display: none;">
+  <!-- Modal Connexion / Inscription Coureur & Marcheur -->
+  <div id="runnerAuthModal" class="modal" style="display: none;" onclick="closeRunnerAuthModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeRunnerAuthModal()">&times;</span>
-      <h3 id="authModalTitle" style="margin-top:0;">Connexion Coureur 🏃‍♂️</h3>
+      <h3 id="runnerAuthTitle" style="margin-top:0; margin-bottom:4px;">Connexion Coureur / Marcheur 🏃‍♂️</h3>
+      <p class="modal-subtitle">Run for Cause • Accédez à votre fiche personnelle et vos statistiques</p>
 
-      <div class="form-group" id="nameFieldGroup" style="display: none;">
-        <label>Votre Nom complet :</label>
-        <input type="text" id="runnerAuthName" placeholder="Ex: Jean Dupont">
-      </div>
-      <div class="form-group">
-        <label>E-mail :</label>
-        <input type="email" id="runnerAuthEmail" required placeholder="Ex: jean@example.com">
-      </div>
-      <div class="form-group">
-        <label>Mot de passe :</label>
-        <input type="password" id="runnerAuthPassword" oninput="checkPasswordStrength(this.value)" required placeholder="********">
-        <span id="passwordStrengthText" class="password-strength" style="display:none;"></span>
-      </div>
+      <form onsubmit="handleRunnerAuthSubmit(event)">
+        <div id="runnerRegisterFields" style="display: none;">
+          <div class="form-group">
+            <label>Prénom <span style="color:#ef4444;">*</span> :</label>
+            <input type="text" id="authFirstName" placeholder="Ex: Camille">
+          </div>
+          <div class="form-group">
+            <label>Nom <span style="color:#ef4444;">*</span> :</label>
+            <input type="text" id="authLastName" placeholder="Ex: Rochat">
+          </div>
+        </div>
 
-      <button id="authSubmitBtn" onclick="handleRunnerAuthSubmit()" class="submit-btn" style="margin-bottom: 10px;">Se connecter</button>
-      <button onclick="toggleAuthMode()" id="authToggleModeBtn" class="btn-primary" style="width: 100%; font-size: 13px;">Pas encore de compte ? S'inscrire</button>
+        <div class="form-group">
+          <label>E-mail <span style="color:#ef4444;">*</span> :</label>
+          <input type="email" id="authEmail" required placeholder="participant@exemple.ch">
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe <span style="color:#ef4444;">*</span> :</label>
+          <input type="password" id="authPassword" required placeholder="••••••••" oninput="updateAuthPasswordHint()">
+          <div id="authPasswordHint" style="font-size: 11px; margin-top: 4px; font-weight: 600;"></div>
+        </div>
+
+        <button type="submit" id="runnerAuthSubmitBtn" class="submit-btn">Se connecter</button>
+      </form>
+
+      <button type="button" id="runnerAuthToggleBtn" class="btn-outline" onclick="toggleRunnerAuthMode()">
+        Nouveau coureur / marcheur ? S'inscrire
+      </button>
     </div>
   </div>
 
-  <!-- Modal Menu Administrateur -->
-  <div id="adminModal" class="modal" style="display: none;">
+  <!-- Modal Paramètres / Administration -->
+  <div id="adminModal" class="modal" style="display: none;" onclick="closeAdminModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeAdminModal()">&times;</span>
-      <h3 style="margin-top:0;">Panneau d'Administration 🔐</h3>
+      <h3 style="margin-top:0; margin-bottom:4px;">⚙️ Paramètres — Run for Cause</h3>
+      <p class="modal-subtitle">Site Run for Cause • Contact : runforcauseyverdon@gmail.com</p>
 
       <div class="form-group" style="background: #f1f5f9; padding: 12px; border-radius: 8px;">
-        <label>🏁 Statut de l'événement :</label>
+        <label>🏁 Statut de l'événement Run for Cause :</label>
         <div style="display: flex; gap: 10px; margin-top: 5px;">
           <button onclick="setEventStatus(false)" class="submit-btn" style="background: #10b981; font-size: 13px;">▶️ Démarrer / Suivi</button>
           <button onclick="setEventStatus(true)" class="submit-btn" style="background: #3b82f6; font-size: 13px;">🏁 Clôturer</button>
@@ -228,8 +500,22 @@
 
       <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
 
+      <!-- Remise à zéro sélective des km -->
       <div class="form-group">
-        <label>💳 Facturation & E-mails Donateurs :</label>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <label style="margin:0;">🔄 Remettre les km à 0 (sélection) :</label>
+          <button type="button" class="small-link-btn" onclick="toggleSelectAllResetKm()">Tout cocher / décocher</button>
+        </div>
+        <div id="adminResetKmCheckboxContainer" class="admin-checkbox-list"></div>
+        <button onclick="adminResetSelectedRunnersKm()" class="btn-warning" style="width: 100%;">
+          Remettre à 0 km les participants cochés
+        </button>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
+
+      <div class="form-group">
+        <label>💳 Facturation & E-mails Donateurs (Run for Cause) :</label>
         <button onclick="openDonorsBillingModal()" class="btn-primary" style="width: 100%;">Voir les montants dus et envoyer les e-mails</button>
       </div>
 
@@ -244,9 +530,9 @@
       <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
 
       <div class="form-group">
-        <label>❌ Supprimer coureur(s) :</label>
+        <label>❌ Supprimer participant(s) :</label>
         <div id="adminRunnersCheckboxContainer" class="admin-checkbox-list"></div>
-        <button onclick="adminDeleteSelectedRunners()" class="btn-danger" style="width: 100%;">Supprimer les coureurs cochés</button>
+        <button onclick="adminDeleteSelectedRunners()" class="btn-danger" style="width: 100%;">Supprimer les participants cochés</button>
       </div>
 
       <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
@@ -254,7 +540,7 @@
       <div class="form-group">
         <label>🤝 Supprimer donateur(s) :</label>
         <select id="adminRunnerForDonorsSelect" onchange="loadDonorsCheckboxForAdmin()" style="margin-bottom: 8px;">
-          <option value="">1. Choisir d'abord le coureur</option>
+          <option value="">1. Choisir d'abord le participant</option>
         </select>
         <div id="adminDonorsCheckboxContainer" class="admin-checkbox-list" style="margin-bottom: 8px;"></div>
         <button onclick="adminDeleteSelectedDonors()" class="btn-danger" style="width: 100%;">Supprimer les donateurs cochés</button>
@@ -266,40 +552,110 @@
         ⚠️ Réinitialiser toutes les distances à 0
       </button>
 
-      <button onclick="closeAdminModal()" class="btn-secondary">Fermer l'administration</button>
+      <button onclick="closeAdminModal()" class="btn-secondary">Fermer les paramètres</button>
     </div>
   </div>
 
   <!-- Modal Facturation Donateurs -->
-  <div id="donorsBillingModal" class="modal" style="display: none;">
+  <div id="donorsBillingModal" class="modal" style="display: none;" onclick="closeDonorsBillingModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeDonorsBillingModal()">&times;</span>
-      <h3 style="margin-top:0;">💳 Récapitulatif des Paiements Donateurs</h3>
-      <p style="font-size: 13px; color: #64748b;">Montants calculés (Distance × Mise par km) avec envoi par e-mail :</p>
+      <h3 style="margin-top:0; margin-bottom:4px;">💳 Paiements Donateurs — Run for Cause</h3>
+      <p class="modal-subtitle">Site Run for Cause • Montants calculés (Distance × Mise par km) :</p>
       <div id="donorsBillingList" style="max-height: 350px; overflow-y: auto; margin-top: 10px;"></div>
     </div>
   </div>
 
-  <!-- Modal Détails & Sponsors d'un Coureur -->
-  <div id="runnerDetailModal" class="modal" style="display: none;">
+  <!-- Modal Fiche Détaillée & Sponsors d'un Participant -->
+  <div id="runnerDetailModal" class="modal" style="display: none;" onclick="closeRunnerDetailModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeRunnerDetailModal()">&times;</span>
-      <h3 id="detailRunnerName" style="margin-top:0;">Détails du coureur</h3>
-      <p id="detailRunnerDistance" style="font-weight: bold; color: #10b981;"></p>
-      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
-      <h4 style="margin: 0 0 10px 0; font-size:15px; color:#334155;">Sponsors / Parrains :</h4>
-      <div id="detailSponsorsList" style="max-height: 120px; overflow-y: auto; margin-bottom: 15px;">
+      <div id="detailConnectedBadge" class="connected-badge" style="display: none;">✅ VOTRE ESPACE PARTICIPANT CONNECTÉ</div>
+      <p class="modal-subtitle" style="margin-bottom:4px;">Run for Cause • Fiche Participant</p>
+      <h3 id="detailRunnerName" style="margin-top:0; margin-bottom:10px;">Détails du participant</h3>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Prénom :</span>
+          <span class="detail-value" id="detailRunnerFirstName">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Nom :</span>
+          <span class="detail-value" id="detailRunnerLastName">-</span>
+        </div>
+        <div class="detail-item" id="detailRunnerEmailRow" style="display: none;">
+          <span class="detail-label">E-mail :</span>
+          <span class="detail-value" id="detailRunnerEmail">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Rang :</span>
+          <span class="detail-value" id="detailRunnerRank">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Heure de départ :</span>
+          <span class="detail-value" id="detailRunnerStartTime">-</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Temps passé :</span>
+          <span class="detail-value" id="detailRunnerElapsedTime">--:--:--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Km parcourus :</span>
+          <span class="detail-value" id="detailRunnerDistance" style="color:#10b981;">0.00 km</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Parrainage :</span>
+          <span class="detail-value" id="detailRunnerPledgeSummary">0.00 CHF/km</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Argent récolté (par km) :</span>
+          <span class="detail-value" id="detailRunnerCollectedDonations" style="color:#059669;">0.00 CHF</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Dénivelé :</span>
+          <span class="detail-value" id="detailRunnerElevation">Non renseigné</span>
+        </div>
+        <div class="detail-item" style="display:block;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <span class="detail-label">Avancement sur le tracé :</span>
+            <span class="detail-value" id="detailRunnerTrackProgress">Aucun tracé GPX</span>
+          </div>
+          <div class="progress-track-bar">
+            <div id="detailRunnerProgressFill" class="progress-track-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tracé en dénivelé avec trait d'emplacement du participant -->
+      <div class="elevation-box">
+        <div class="elevation-header">
+          <span>⛰️ Profil de dénivelé & position sur le tracé</span>
+          <span id="detailElevationMarkerLabel" style="color:#dc2626;">Trait : 0.00 km</span>
+        </div>
+        <canvas id="elevationCanvas" width="460" height="145"></canvas>
+        <div id="detailElevationCaption" class="elevation-caption">
+          Le trait rouge indique la position actuelle du participant le long du tracé.
+        </div>
+      </div>
+
+      <h4 style="margin: 0 0 8px 0; font-size:14px; color:#334155;">Sponsors / Parrains :</h4>
+      <div id="detailSponsorsList" style="max-height: 110px; overflow-y: auto; margin-bottom: 14px;">
         <p style="color: #64748b; font-size: 13px;">Aucun sponsor pour l'instant.</p>
       </div>
-      <button class="submit-btn" id="modalSponsorBtn" onclick="openSponsorModalFromDetail()">Devenir sponsor de ce coureur</button>
+
+      <button class="submit-btn" id="modalSponsorBtn" onclick="openSponsorModalFromDetail()">Soutenir sur Run for Cause</button>
+      <button type="button" id="detailLogoutBtn" class="btn-danger" style="width:100%; margin-top:10px; padding:10px; display:none;" onclick="logoutRunner()">
+        Se déconnecter de mon compte participant
+      </button>
     </div>
   </div>
 
   <!-- Modal Inscription Parrain / Sponsor -->
-  <div id="sponsorModal" class="modal" style="display: none;">
+  <div id="sponsorModal" class="modal" style="display: none;" onclick="closeSponsorModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeSponsorModal()">&times;</span>
-      <h3 style="margin-top:0;">Devenir Sponsor 🤝</h3>
+      <h3 style="margin-top:0; margin-bottom:4px;">Devenir Sponsor — Run for Cause 🤝</h3>
+      <p class="modal-subtitle">Soutien au projet Run for Cause (runforcauseyverdon@gmail.com)</p>
       <form onsubmit="handleSponsorSubmit(event)">
         <div class="form-group">
           <label>Votre Nom :</label>
@@ -327,34 +683,73 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
 
   <script>
-    const FIREBASE_URL = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/participants.json";
-    const FIREBASE_STATUS_URL = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/eventStatus.json";
-    const FIREBASE_GPX_URL = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app/gpxTrack.json";
     const FIREBASE_BASE = "https://runforcause1400-default-rtdb.europe-west1.firebasedatabase.app";
+    const FIREBASE_URL = `${FIREBASE_BASE}/participants.json`;
+    const FIREBASE_STATUS_URL = `${FIREBASE_BASE}/eventStatus.json`;
+    const FIREBASE_GPX_URL = `${FIREBASE_BASE}/gpxTrack.json`;
+    const STORAGE_RUNNER_KEY = "runforcause_web_runner_id";
 
     let map;
     let markers = {};
     let gpxLayer = null;
+    let gpxRoutePoints = [];
+    let gpxTotalDistanceKm = 0;
+    let gpxTotalElevationGainM = 0;
+
     let globalRunnersArray = [];
+    let rankedRunnersArray = [];
     let selectedRunnerId = null;
+    let loggedRunnerId = localStorage.getItem(STORAGE_RUNNER_KEY) || null;
+    let isRunnerRegisterMode = false;
     let isEventEnded = false;
 
-    let isRegisterMode = false;
-    let currentRunnerUser = null;
-    let isTrackingActive = false;
-    let trackingTimer = null;
-    let watchId = null;
-    let sessionStartTime = null;
-    let totalDistanceMeters = 0;
-    let lastPosition = null;
-    let virtualTrackingInterval = null;
-    let fallbackTimeoutId = null;
+    function makeUserKey(email) {
+      return email.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+    }
+
+    function isStrongPassword(password) {
+      return (
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[\W_0-9]/.test(password)
+      );
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatDuration(totalSeconds) {
+      const sec = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function splitRunnerNames(runner) {
+      const first = (runner.firstName || '').trim();
+      const last = (runner.lastName || '').trim();
+      if (first || last) {
+        return { firstName: first || '-', lastName: last || '-' };
+      }
+      const full = (runner.name || '').trim();
+      if (!full) return { firstName: '-', lastName: '-' };
+      const parts = full.split(/\s+/);
+      if (parts.length === 1) return { firstName: parts[0], lastName: '-' };
+      return { firstName: parts[0], lastName: parts.slice(1).join(' ') };
+    }
 
     function initMap() {
       map = L.map('map', { tap: true }).setView([46.7785, 6.6412], 14);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© OpenStreetMap'
+        attribution: '© OpenStreetMap • Run for Cause'
       }).addTo(map);
 
       setTimeout(() => {
@@ -362,324 +757,8 @@
       }, 300);
     }
 
-    async function loadSavedGpxTrack() {
-      try {
-        const res = await fetch(FIREBASE_GPX_URL);
-        const data = await res.json();
-        const gpxText = (typeof data === 'string') ? data : (data && data.content ? data.content : null);
-
-        if (gpxText) {
-          if (gpxLayer) map.removeLayer(gpxLayer);
-          gpxLayer = new L.GPX(gpxText, {
-            async: true,
-            marker_options: { startIcon: null, endIcon: null, wptIcon: null },
-            polyline_options: { color: '#3b82f6', weight: 4, opacity: 0.8 }
-          }).on('loaded', function(e) {
-            if (map) map.fitBounds(e.target.getBounds());
-          }).addTo(map);
-        }
-      } catch (err) {
-        console.error("Erreur lors du chargement du GPX :", err);
-      }
-    }
-
-    // --- VÉRIFICATION MOT DE PASSE FORT ---
-    function checkPasswordStrength(password) {
-      const strengthText = document.getElementById('passwordStrengthText');
-      if (!password) {
-        strengthText.style.display = 'none';
-        return;
-      }
-      strengthText.style.display = 'block';
-
-      const hasLength = password.length >= 8;
-      const hasUpper = /[A-Z]/.test(password);
-      const hasLower = /[a-z]/.test(password);
-      const hasSpecial = /[\W_0-9]/.test(password);
-
-      if (hasLength && hasUpper && hasLower && hasSpecial) {
-        strengthText.innerHTML = "🟢 Sécurité : Fort";
-        strengthText.style.color = "#10b981";
-      } else if (password.length >= 6 && (hasUpper || hasLower)) {
-        strengthText.innerHTML = "🟠 Sécurité : Moyen (8 carac. min, maj, min et symbole/chiffre requis)";
-        strengthText.style.color = "#f59e0b";
-      } else {
-        strengthText.innerHTML = "🔴 Sécurité : Faible (8 carac. min, maj, min et symbole/chiffre requis)";
-        strengthText.style.color = "#ef4444";
-      }
-    }
-
-    // --- GESTION ESPACE COUREUR ---
-    function openRunnerAuthModal() {
-      document.getElementById('runnerAuthModal').style.display = 'flex';
-    }
-    function closeRunnerAuthModal() {
-      document.getElementById('runnerAuthModal').style.display = 'none';
-    }
-
-    function toggleAuthMode() {
-      isRegisterMode = !isRegisterMode;
-      const title = document.getElementById('authModalTitle');
-      const nameGroup = document.getElementById('nameFieldGroup');
-      const submitBtn = document.getElementById('authSubmitBtn');
-      const toggleBtn = document.getElementById('authToggleModeBtn');
-      document.getElementById('passwordStrengthText').style.display = 'none';
-
-      if (isRegisterMode) {
-        title.innerText = "Inscription Coureur 📝";
-        nameGroup.style.display = 'block';
-        submitBtn.innerText = "S'inscrire";
-        toggleBtn.innerText = "Déjà un compte ? Se connecter";
-      } else {
-        title.innerText = "Connexion Coureur 🏃‍♂️";
-        nameGroup.style.display = 'none';
-        submitBtn.innerText = "Se connecter";
-        toggleBtn.innerText = "Pas encore de compte ? S'inscrire";
-      }
-    }
-
-    async function handleRunnerAuthSubmit() {
-      const email = document.getElementById('runnerAuthEmail').value.trim();
-      const password = document.getElementById('runnerAuthPassword').value.trim();
-      const fullName = document.getElementById('runnerAuthName').value.trim();
-
-      if (!email || !password) {
-        alert("Veuillez remplir tous les champs obligatoires.");
-        return;
-      }
-
-      if (isRegisterMode) {
-        if (!fullName) {
-          alert("Veuillez entrer votre nom complet.");
-          return;
-        }
-        const isStrong = password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[\W_0-9]/.test(password);
-        if (!isStrong) {
-          alert("Le mot de passe est trop faible. Il doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre/symbole.");
-          return;
-        }
-      }
-
-      const userKey = email.toLowerCase().replace(/[^a-z0-9]/g, '_');
-
-      try {
-        const res = await fetch(`${FIREBASE_BASE}/participants/${userKey}.json`);
-        let userData = await res.json();
-
-        if (isRegisterMode) {
-          userData = {
-            id: userKey,
-            name: fullName,
-            email: email,
-            password: password,
-            distanceKm: 0,
-            latitude: null,
-            longitude: null
-          };
-          await fetch(`${FIREBASE_BASE}/participants/${userKey}.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData)
-          });
-          alert("Inscription réussie ! Bienvenue " + fullName);
-        } else {
-          if (!userData) { alert("Aucun compte trouvé avec cet e-mail."); return; }
-          if (userData.password !== password) { alert("Mot de passe incorrect."); return; }
-          alert("Connexion réussie ! Bon retour " + userData.name);
-        }
-
-        currentRunnerUser = userData;
-        localStorage.setItem('runForCauseUserKey', userKey);
-        closeRunnerAuthModal();
-        updateRunnerPanelUI();
-        fetchData();
-      } catch (err) {
-        console.error("Erreur d'authentification :", err);
-        alert("Une erreur est survenue.");
-      }
-    }
-
-    function logoutRunner() {
-      if (isTrackingActive) toggleTracking();
-      currentRunnerUser = null;
-      localStorage.removeItem('runForCauseUserKey');
-      updateRunnerPanelUI();
-      alert("Vous êtes déconnecté.");
-    }
-
-    function updateRunnerPanelUI() {
-      const panel = document.getElementById('activeRunnerPanel');
-      const nameSpan = document.getElementById('connectedRunnerName');
-      if (currentRunnerUser) {
-        panel.style.display = 'block';
-        nameSpan.innerText = currentRunnerUser.name;
-      } else {
-        panel.style.display = 'none';
-      }
-    }
-
-    // --- DIAGNOSTIC & SUIVI GPS ---
-    function setDiagnosticMessage(msg) {
-      const diagEl = document.getElementById('gpsDiagnosticText');
-      if (diagEl) diagEl.innerText = msg;
-    }
-
-    async function diagnosticGeoloc() {
-      if (!('geolocation' in navigator)) {
-        setDiagnosticMessage("❌ navigator.geolocation absent sur ce navigateur / contexte.");
-        return;
-      }
-
-      let permState = "inconnu";
-      if (navigator.permissions && navigator.permissions.query) {
-        try {
-          const perm = await navigator.permissions.query({ name: 'geolocation' });
-          permState = perm.state;
-        } catch (e) {
-          permState = "non interrogeable";
-        }
-      }
-
-      setDiagnosticMessage(`Protocole: ${location.protocol} | Permission: ${permState} | Test en cours...`);
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setDiagnosticMessage(
-            `✅ GPS OK (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}) — précision ±${Math.round(pos.coords.accuracy)}m`
-          );
-        },
-        (err) => {
-          setDiagnosticMessage(
-            `❌ GPS refusé/erreur (Code ${err.code}) : ${err.message} — Vérifiez les permissions du site/iframe ou l'accès localisation.`
-          );
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-      );
-    }
-
-    function toggleTracking() {
-      if (!isTrackingActive) {
-        if (!navigator.geolocation) {
-          setDiagnosticMessage("❌ La géolocalisation n'est pas supportée par ce navigateur.");
-          alert("❌ La géolocalisation n'est pas supportée par votre navigateur.");
-          return;
-        }
-
-        isTrackingActive = true;
-        sessionStartTime = Date.now();
-        document.getElementById('toggleTrackBtn').innerText = "Arrêter mon suivi";
-        document.getElementById('toggleTrackBtn').style.background = "#ef4444";
-
-        // Chronomètre absolu (continue de compter même si l'écran est verrouillé)
-        trackingTimer = setInterval(() => {
-          const elapsedSeconds = Math.floor((Date.now() - sessionStartTime) / 1000);
-          const hours = String(Math.floor(elapsedSeconds / 3600)).padStart(2, '0');
-          const minutes = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, '0');
-          const seconds = String(elapsedSeconds % 60).padStart(2, '0');
-          document.getElementById('resilientTimer').innerText = `${hours}:${minutes}:${seconds}`;
-        }, 1000);
-
-        document.getElementById('resilientDistance').innerText = "Recherche GPS...";
-        setDiagnosticMessage(`Protocole: ${location.protocol} | Demande de position GPS en cours...`);
-
-        let gpsReceived = false;
-
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            gpsReceived = true;
-            if (fallbackTimeoutId) clearTimeout(fallbackTimeoutId);
-            if (virtualTrackingInterval) {
-              clearInterval(virtualTrackingInterval);
-              virtualTrackingInterval = null;
-            }
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            if (lastPosition) {
-              const dist = calculateDistance(lastPosition.lat, lastPosition.lng, lat, lng);
-              totalDistanceMeters += dist;
-            }
-            lastPosition = { lat, lng };
-            const currentDistKm = totalDistanceMeters / 1000;
-            document.getElementById('resilientDistance').innerText = currentDistKm.toFixed(2) + " km (GPS 🛰️)";
-            setDiagnosticMessage(`✅ GPS actif (±${Math.round(position.coords.accuracy)}m)`);
-            updateRunnerLocationInFirebase(lat, lng, currentDistKm);
-          },
-          (err) => {
-            setDiagnosticMessage(`⚠️ Erreur GPS initiale (Code ${err.code}) : ${err.message}`);
-          },
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-        );
-
-        watchId = navigator.geolocation.watchPosition(
-          (position) => {
-            gpsReceived = true;
-            if (fallbackTimeoutId) clearTimeout(fallbackTimeoutId);
-            if (virtualTrackingInterval) {
-              clearInterval(virtualTrackingInterval);
-              virtualTrackingInterval = null;
-            }
-
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            if (lastPosition) {
-              const dist = calculateDistance(lastPosition.lat, lastPosition.lng, lat, lng);
-              totalDistanceMeters += dist;
-            }
-            lastPosition = { lat, lng };
-
-            const currentDistKm = totalDistanceMeters / 1000;
-            document.getElementById('resilientDistance').innerText = currentDistKm.toFixed(2) + " km (GPS 🛰️)";
-            setDiagnosticMessage(`✅ GPS actif (±${Math.round(position.coords.accuracy)}m)`);
-            updateRunnerLocationInFirebase(lat, lng, currentDistKm);
-          },
-          (error) => {
-            setDiagnosticMessage(`⚠️ GPS indisponible (Code ${error.code}) : ${error.message} -> Bascule mode hybride`);
-            if (!gpsReceived) {
-              startVirtualGpxTracking();
-            }
-          },
-          { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 }
-        );
-
-        fallbackTimeoutId = setTimeout(() => {
-          if (!gpsReceived && isTrackingActive && totalDistanceMeters === 0) {
-            setDiagnosticMessage("⚠️ Aucune réponse GPS après 8s -> Bascule en mode hybride");
-            startVirtualGpxTracking();
-          }
-        }, 8000);
-
-      } else {
-        isTrackingActive = false;
-        clearInterval(trackingTimer);
-        if (fallbackTimeoutId) clearTimeout(fallbackTimeoutId);
-        if (watchId !== null) navigator.geolocation.clearWatch(watchId);
-        if (virtualTrackingInterval) {
-          clearInterval(virtualTrackingInterval);
-          virtualTrackingInterval = null;
-        }
-        document.getElementById('toggleTrackBtn').innerText = "Démarrer mon suivi";
-        document.getElementById('toggleTrackBtn').style.background = "#10b981";
-        setDiagnosticMessage("État GPS : suivi arrêté");
-        alert("Suivi arrêté.");
-      }
-    }
-
-    function startVirtualGpxTracking() {
-      if (virtualTrackingInterval) clearInterval(virtualTrackingInterval);
-      virtualTrackingInterval = setInterval(() => {
-        if (!isTrackingActive) return;
-        totalDistanceMeters += 2.5;
-        const currentDistKm = totalDistanceMeters / 1000;
-        document.getElementById('resilientDistance').innerText = currentDistKm.toFixed(2) + " km (mode hybride)";
-        if (currentRunnerUser) {
-          updateRunnerLocationInFirebase(currentRunnerUser.latitude || 46.7785, currentRunnerUser.longitude || 6.6412, currentDistKm);
-        }
-      }, 1000);
-    }
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3;
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
       const dLat = (lat2 - lat1) * Math.PI / 180;
       const dLon = (lon2 - lon1) * Math.PI / 180;
       const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -689,27 +768,438 @@
       return R * c;
     }
 
-    async function updateRunnerLocationInFirebase(lat, lng, distKm) {
-      if (!currentRunnerUser) return;
-      currentRunnerUser.latitude = lat;
-      currentRunnerUser.longitude = lng;
-      currentRunnerUser.distanceKm = distKm;
+    function parseGpxMetrics(gpxText) {
+      gpxRoutePoints = [];
+      gpxTotalDistanceKm = 0;
+      gpxTotalElevationGainM = 0;
 
-      await fetch(`${FIREBASE_BASE}/participants/${currentRunnerUser.id}.json`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ latitude: lat, longitude: lng, distanceKm: distKm })
-      });
+      if (!gpxText) return;
+
+      try {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(gpxText, "application/xml");
+        const trkpts = Array.from(xmlDoc.getElementsByTagName("trkpt"));
+        const pts = trkpts.length > 0 ? trkpts : Array.from(xmlDoc.getElementsByTagName("rtept"));
+
+        let prevLat = null;
+        let prevLng = null;
+        let prevEle = null;
+        let cumKm = 0;
+        let gainM = 0;
+
+        pts.forEach((pt) => {
+          const lat = parseFloat(pt.getAttribute("lat"));
+          const lng = parseFloat(pt.getAttribute("lon"));
+          if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+
+          const eleNode = pt.getElementsByTagName("ele")[0];
+          const ele = eleNode ? parseFloat(eleNode.textContent) : null;
+
+          if (prevLat !== null && prevLng !== null) {
+            cumKm += haversineKm(prevLat, prevLng, lat, lng);
+          }
+          if (ele !== null && !Number.isNaN(ele) && prevEle !== null && !Number.isNaN(prevEle)) {
+            const diff = ele - prevEle;
+            if (diff > 0) gainM += diff;
+          }
+
+          prevLat = lat;
+          prevLng = lng;
+          if (ele !== null && !Number.isNaN(ele)) prevEle = ele;
+
+          gpxRoutePoints.push({
+            lat,
+            lng,
+            ele: (ele !== null && !Number.isNaN(ele)) ? ele : null,
+            cumDistKm: cumKm
+          });
+        });
+
+        gpxTotalDistanceKm = cumKm;
+        gpxTotalElevationGainM = gainM;
+      } catch (e) {
+        console.warn("Lecture métriques GPX impossible :", e);
+      }
     }
 
-    // --- ADMIN ---
+    function getPointAlongGpxAtDistance(distKm) {
+      if (!gpxRoutePoints || gpxRoutePoints.length === 0) return null;
+      if (distKm <= 0) return gpxRoutePoints[0];
+      if (distKm >= gpxTotalDistanceKm) return gpxRoutePoints[gpxRoutePoints.length - 1];
+
+      for (let i = 1; i < gpxRoutePoints.length; i++) {
+        const prev = gpxRoutePoints[i - 1];
+        const curr = gpxRoutePoints[i];
+        if (curr.cumDistKm >= distKm) {
+          const segLen = Math.max(curr.cumDistKm - prev.cumDistKm, 0.000001);
+          const ratio = Math.min(Math.max((distKm - prev.cumDistKm) / segLen, 0), 1);
+          return {
+            lat: prev.lat + (curr.lat - prev.lat) * ratio,
+            lng: prev.lng + (curr.lng - prev.lng) * ratio,
+            ele: (prev.ele !== null && curr.ele !== null) ? (prev.ele + (curr.ele - prev.ele) * ratio) : null
+          };
+        }
+      }
+      return gpxRoutePoints[gpxRoutePoints.length - 1];
+    }
+
+    function getElevationGainAlongGpxAtDistance(distKm) {
+      if (!gpxRoutePoints || gpxRoutePoints.length < 2 || distKm <= 0) return 0;
+      let gain = 0;
+      for (let i = 1; i < gpxRoutePoints.length; i++) {
+        const prev = gpxRoutePoints[i - 1];
+        const curr = gpxRoutePoints[i];
+        if (curr.ele !== null && prev.ele !== null && curr.ele > prev.ele) {
+          if (curr.cumDistKm <= distKm) {
+            gain += (curr.ele - prev.ele);
+          } else if (prev.cumDistKm < distKm) {
+            const segLen = Math.max(curr.cumDistKm - prev.cumDistKm, 0.000001);
+            const ratio = Math.min(Math.max((distKm - prev.cumDistKm) / segLen, 0), 1);
+            gain += (curr.ele - prev.ele) * ratio;
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+      return gain;
+    }
+
+    function drawElevationProfile(distKm) {
+      const canvas = document.getElementById('elevationCanvas');
+      const markerLabel = document.getElementById('detailElevationMarkerLabel');
+      const caption = document.getElementById('detailElevationCaption');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const elePoints = gpxRoutePoints.filter(p => p.ele !== null && !Number.isNaN(p.ele));
+      const maxDist = gpxTotalDistanceKm > 0 ? gpxTotalDistanceKm : Math.max(distKm, 1);
+
+      if (elePoints.length < 2) {
+        ctx.fillStyle = "#64748b";
+        ctx.font = "12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Aucune donnée d'altitude (<ele>) dans le tracé GPX", w / 2, h / 2);
+        markerLabel.innerText = `Trait : ${distKm.toFixed(2)} km`;
+        caption.innerText = "Importez un fichier GPX contenant des altitudes pour afficher le profil en dénivelé.";
+        return;
+      }
+
+      const padLeft = 40;
+      const padRight = 14;
+      const padTop = 14;
+      const padBottom = 24;
+      const plotW = Math.max(w - padLeft - padRight, 20);
+      const plotH = Math.max(h - padTop - padBottom, 20);
+
+      let minEle = Infinity;
+      let maxEle = -Infinity;
+      elePoints.forEach(p => {
+        if (p.ele < minEle) minEle = p.ele;
+        if (p.ele > maxEle) maxEle = p.ele;
+      });
+      if (maxEle === minEle) {
+        maxEle += 10;
+        minEle = Math.max(0, minEle - 10);
+      }
+      const eleSpan = maxEle - minEle;
+
+      const xFromDist = (km) => {
+        const ratio = Math.min(Math.max(km / maxDist, 0), 1);
+        return padLeft + ratio * plotW;
+      };
+      const yFromEle = (ele) => {
+        const ratio = (ele - minEle) / eleSpan;
+        return padTop + (1 - ratio) * plotH;
+      };
+
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 2; i++) {
+        const y = padTop + (plotH / 2) * i;
+        ctx.beginPath();
+        ctx.moveTo(padLeft, y);
+        ctx.lineTo(w - padRight, y);
+        ctx.stroke();
+
+        const eleVal = Math.round(maxEle - (eleSpan / 2) * i);
+        ctx.fillStyle = "#64748b";
+        ctx.font = "10px sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(`${eleVal}m`, padLeft - 5, y + 3);
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(xFromDist(elePoints[0].cumDistKm), padTop + plotH);
+      elePoints.forEach(p => {
+        ctx.lineTo(xFromDist(p.cumDistKm), yFromEle(p.ele));
+      });
+      ctx.lineTo(xFromDist(elePoints[elePoints.length - 1].cumDistKm), padTop + plotH);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(59, 130, 246, 0.16)";
+      ctx.fill();
+
+      ctx.beginPath();
+      elePoints.forEach((p, idx) => {
+        const x = xFromDist(p.cumDistKm);
+        const y = yFromEle(p.ele);
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = "#2563eb";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const clampedKm = Math.min(Math.max(distKm, 0), maxDist);
+      const markerX = xFromDist(clampedKm);
+      const runnerPt = getPointAlongGpxAtDistance(clampedKm);
+      const markerY = (runnerPt && runnerPt.ele !== null) ? yFromEle(runnerPt.ele) : (padTop + plotH / 2);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = "#dc2626";
+      ctx.lineWidth = 2;
+      ctx.moveTo(markerX, padTop);
+      ctx.lineTo(markerX, padTop + plotH);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(markerX, markerY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = "#dc2626";
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#64748b";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText("0 km", padLeft, h - 6);
+      ctx.textAlign = "right";
+      ctx.fillText(`${maxDist.toFixed(1)} km`, w - padRight, h - 6);
+
+      const eleInfo = (runnerPt && runnerPt.ele !== null) ? ` • Alt. ${Math.round(runnerPt.ele)} m` : "";
+      markerLabel.innerText = `Trait : ${distKm.toFixed(2)} km${eleInfo}`;
+      caption.innerText = `Trait rouge : emplacement du participant (${distKm.toFixed(2)} km sur ${maxDist.toFixed(2)} km).`;
+    }
+
+    async function loadSavedGpxTrack() {
+      try {
+        const res = await fetch(`${FIREBASE_GPX_URL}?t=${Date.now()}`, { cache: "no-store" });
+        const data = await res.json();
+        const gpxText = (typeof data === 'string') ? data : (data && data.content ? data.content : null);
+
+        if (gpxText) {
+          parseGpxMetrics(gpxText);
+          if (gpxLayer) map.removeLayer(gpxLayer);
+          gpxLayer = new L.GPX(gpxText, {
+            async: true,
+            marker_options: { startIcon: null, endIcon: null, wptIcon: null },
+            polyline_options: { color: '#3b82f6', weight: 4, opacity: 0.8 }
+          }).on('loaded', function(e) {
+            if (map) map.fitBounds(e.target.getBounds());
+          }).addTo(map);
+        } else {
+          parseGpxMetrics("");
+        }
+      } catch (err) {
+        console.error("Erreur lors du chargement du GPX :", err);
+      }
+    }
+
+    // --- CONNEXION / INSCRIPTION COUREUR & MARCHEUR ---
+    function updateRunnerHeaderBar() {
+      const portalBtn = document.getElementById('runnerPortalBtn');
+      const mySheetBtn = document.getElementById('myRunnerSheetBtn');
+      if (!portalBtn || !mySheetBtn) return;
+
+      const me = loggedRunnerId
+        ? globalRunnersArray.find(r => r.id === loggedRunnerId)
+        : null;
+
+      if (me) {
+        const displayName = me.name || `${me.firstName || ''} ${me.lastName || ''}`.trim() || me.email;
+        portalBtn.innerText = `🏃‍♂️ ${displayName}`;
+        mySheetBtn.style.display = 'inline-block';
+      } else {
+        portalBtn.innerText = '🏃‍♂️ Coureur / Marcheur';
+        mySheetBtn.style.display = 'none';
+      }
+    }
+
+    function openRunnerAuthModal(registerMode = false) {
+      if (loggedRunnerId) {
+        const me = globalRunnersArray.find(r => r.id === loggedRunnerId);
+        if (me) {
+          openRunnerDetail(me.id);
+          return;
+        }
+      }
+      isRunnerRegisterMode = registerMode;
+      syncRunnerAuthModalUI();
+      document.getElementById('runnerAuthModal').style.display = 'flex';
+    }
+
+    function closeRunnerAuthModal() {
+      document.getElementById('runnerAuthModal').style.display = 'none';
+      document.getElementById('authPassword').value = '';
+      document.getElementById('authPasswordHint').innerText = '';
+    }
+
+    function toggleRunnerAuthMode() {
+      isRunnerRegisterMode = !isRunnerRegisterMode;
+      syncRunnerAuthModalUI();
+    }
+
+    function syncRunnerAuthModalUI() {
+      const title = document.getElementById('runnerAuthTitle');
+      const regFields = document.getElementById('runnerRegisterFields');
+      const submitBtn = document.getElementById('runnerAuthSubmitBtn');
+      const toggleBtn = document.getElementById('runnerAuthToggleBtn');
+
+      if (isRunnerRegisterMode) {
+        title.innerText = 'Inscription Coureur / Marcheur 📝';
+        regFields.style.display = 'block';
+        submitBtn.innerText = 'Créer mon compte participant';
+        toggleBtn.innerText = 'Déjà inscrit ? Se connecter';
+      } else {
+        title.innerText = 'Connexion Coureur / Marcheur 🏃‍♂️';
+        regFields.style.display = 'none';
+        submitBtn.innerText = 'Se connecter';
+        toggleBtn.innerText = 'Nouveau coureur / marcheur ? S’inscrire';
+      }
+      updateAuthPasswordHint();
+    }
+
+    function updateAuthPasswordHint() {
+      const hint = document.getElementById('authPasswordHint');
+      const pwd = document.getElementById('authPassword').value;
+      if (!isRunnerRegisterMode || !pwd) {
+        hint.innerText = '';
+        return;
+      }
+      if (isStrongPassword(pwd)) {
+        hint.style.color = '#059669';
+        hint.innerText = '🟢 Mot de passe fort';
+      } else {
+        hint.style.color = '#dc2626';
+        hint.innerText = '🔴 8 carac. min., 1 majuscule, 1 minuscule et 1 chiffre/symbole requis';
+      }
+    }
+
+    async function handleRunnerAuthSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+      const firstName = document.getElementById('authFirstName').value.trim();
+      const lastName = document.getElementById('authLastName').value.trim();
+
+      if (!email || !password) {
+        alert("Veuillez saisir votre e-mail et votre mot de passe.");
+        return;
+      }
+
+      if (isRunnerRegisterMode) {
+        if (!firstName || !lastName) {
+          alert("Veuillez renseigner votre prénom et votre nom.");
+          return;
+        }
+        if (!isStrongPassword(password)) {
+          alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre ou symbole.");
+          return;
+        }
+      }
+
+      const userKey = makeUserKey(email);
+      const fullName = `${firstName} ${lastName}`.trim();
+
+      try {
+        const res = await fetch(`${FIREBASE_BASE}/participants/${userKey}.json`);
+        const existing = await res.json();
+
+        if (isRunnerRegisterMode) {
+          if (existing && existing.password) {
+            alert("Un compte existe déjà avec cet e-mail sur Run for Cause. Passez en mode Connexion.");
+            return;
+          }
+
+          const newRunner = {
+            id: userKey,
+            firstName,
+            lastName,
+            name: fullName,
+            email,
+            password,
+            distanceKm: existing?.distanceKm ? Number(existing.distanceKm) : 0,
+            elapsedSeconds: existing?.elapsedSeconds ? Number(existing.elapsedSeconds) : 0,
+            latitude: existing?.latitude ?? null,
+            longitude: existing?.longitude ?? null,
+            pledges: existing?.pledges || null,
+            createdAt: new Date().toISOString()
+          };
+
+          await fetch(`${FIREBASE_BASE}/participants/${userKey}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newRunner)
+          });
+
+          loggedRunnerId = userKey;
+          localStorage.setItem(STORAGE_RUNNER_KEY, userKey);
+          closeRunnerAuthModal();
+          await fetchData();
+          openRunnerDetail(userKey);
+        } else {
+          if (!existing) {
+            alert("Aucun participant trouvé avec cet e-mail.");
+            return;
+          }
+          if (existing.password && existing.password !== password) {
+            alert("Mot de passe incorrect.");
+            return;
+          }
+
+          loggedRunnerId = userKey;
+          localStorage.setItem(STORAGE_RUNNER_KEY, userKey);
+          closeRunnerAuthModal();
+          await fetchData();
+          openRunnerDetail(userKey);
+        }
+      } catch (err) {
+        console.error("Erreur authentification participant :", err);
+        alert("Impossible de joindre Firebase pour le moment.");
+      }
+    }
+
+    function openLoggedRunnerDetail() {
+      if (!loggedRunnerId) {
+        openRunnerAuthModal(false);
+        return;
+      }
+      openRunnerDetail(loggedRunnerId);
+    }
+
+    function logoutRunner() {
+      loggedRunnerId = null;
+      localStorage.removeItem(STORAGE_RUNNER_KEY);
+      updateRunnerHeaderBar();
+      closeRunnerDetailModal();
+    }
+
+    // --- PARAMÈTRES / ADMIN ---
     function triggerAdminMenu() {
-      const password = prompt("Entrez le mot de passe administrateur :");
+      const password = prompt("Run for Cause — Entrez le mot de passe paramètres :");
       if (password === "RunForCause") {
         populateAdminCheckboxes();
         document.getElementById('adminModal').style.display = 'flex';
       } else if (password !== null) {
-        alert("Mot de passe incorrect.");
+        alert("Mot de passe incorrect pour Run for Cause.");
       }
     }
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
@@ -719,403 +1209,534 @@
       await fetch(FIREBASE_STATUS_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ended: isEventEnded })
+        body: JSON.stringify({ ended })
       });
-      updateEventStatusUI(isEventEnded);
-      alert(isEventEnded ? "Événement clôturé !" : "Événement démarré / Suivi activé !");
+      updateEventBannerUI();
+      alert(ended
+        ? "Événement Run for Cause clôturé."
+        : "Suivi Run for Cause démarré / actif !");
     }
 
-    function updateEventStatusUI(ended) {
+    function updateEventBannerUI() {
       const banner = document.getElementById('eventEndedBanner');
-      const mapBox = document.getElementById('mapCardBox');
-      const sponsorBtn = document.getElementById('modalSponsorBtn');
-
-      if (ended) {
-        banner.style.display = 'block';
-        mapBox.style.display = 'none';
-        if (sponsorBtn) sponsorBtn.style.display = 'none';
-      } else {
-        banner.style.display = 'none';
-        mapBox.style.display = 'block';
-        if (sponsorBtn) sponsorBtn.style.display = 'block';
-        if (map) setTimeout(() => map.invalidateSize(), 200);
-      }
+      if (banner) banner.style.display = isEventEnded ? 'block' : 'none';
     }
-
-    // --- FACTURATION DONATEURS & EMAILS ---
-    function openDonorsBillingModal() {
-      const container = document.getElementById('donorsBillingList');
-      let html = '';
-
-      if (globalRunnersArray.length === 0) {
-        container.innerHTML = '<p style="color: #64748b; text-align: center;">Aucun coureur enregistré.</p>';
-        document.getElementById('donorsBillingModal').style.display = 'flex';
-        return;
-      }
-
-      globalRunnersArray.forEach(runner => {
-        const dist = Number(runner.distanceKm) || 0;
-        html += `<div style="margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
-          <h4 style="margin: 0 0 5px 0; color: #0f172a;">🏃‍♂️ Coureur : ${runner.name} (${dist.toFixed(2)} km)</h4>`;
-
-        if (runner.pledges) {
-          Object.values(runner.pledges).forEach(donor => {
-            const totalDue = dist * Number(donor.amountPerKm);
-
-            const emailSubject = encodeURIComponent("Participation à Run for Cause");
-            const emailBody = encodeURIComponent(
-              `Bonjour ${donor.donorName},\n\n` +
-              `Merci infiniment pour votre précieuse aide en faveur de l'association. ` +
-              `Vous avez mis ${donor.amountPerKm} CHF par km en faveur de ${runner.name} ` +
-              `(${dist.toFixed(2)} km parcourus), soit un montant total de ${totalDue.toFixed(2)} CHF.\n\n` +
-              `Lien de paiement / Modalités : [Insérer le lien Twint ou instructions ici]\n\n` +
-              `Sportivement,\nL'équipe Run for Cause`
-            );
-            const mailtoUrl = `mailto:${donor.email}?subject=${emailSubject}&body=${emailBody}`;
-
-            html += `
-              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin-top: 8px; font-size: 13px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                  <div>
-                    <b>👤 ${donor.donorName}</b> (${donor.email})<br>
-                    Mise : ${donor.amountPerKm} CHF/km → Total : <span style="color: #10b981; font-weight: bold;">${totalDue.toFixed(2)} CHF</span>
-                  </div>
-                  <a href="${mailtoUrl}" class="btn-primary" style="text-decoration: none; font-size: 12px; padding: 6px 10px;">📧 Envoyer l'e-mail</a>
-                </div>
-                ${donor.phone ? `<div style="font-size: 11px; color: #64748b;">Tél optionnel : ${donor.phone}</div>` : ''}
-              </div>
-            `;
-          });
-        } else {
-          html += `<p style="color: #64748b; font-size: 12px; margin: 2px 0;">Aucun donateur pour ce coureur.</p>`;
-        }
-        html += `</div>`;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('donorsBillingModal').style.display = 'flex';
-    }
-
-    function closeDonorsBillingModal() { document.getElementById('donorsBillingModal').style.display = 'none'; }
 
     function populateAdminCheckboxes() {
-      const runnersContainer = document.getElementById('adminRunnersCheckboxContainer');
+      const resetKmContainer = document.getElementById('adminResetKmCheckboxContainer');
+      const deleteRunnerContainer = document.getElementById('adminRunnersCheckboxContainer');
       const donorRunnerSelect = document.getElementById('adminRunnerForDonorsSelect');
 
+      resetKmContainer.innerHTML = '';
+      deleteRunnerContainer.innerHTML = '';
+      donorRunnerSelect.innerHTML = '<option value="">1. Choisir d\'abord le participant</option>';
+
       if (globalRunnersArray.length === 0) {
-        runnersContainer.innerHTML = '<span style="color: #64748b; font-size: 12px;">Aucun coureur enregistré.</span>';
-        donorRunnerSelect.innerHTML = '<option value="">Aucun coureur disponible</option>';
-        document.getElementById('adminDonorsCheckboxContainer').innerHTML = '<span style="color: #64748b; font-size: 12px;">Aucun donateur</span>';
+        resetKmContainer.innerHTML = '<p style="font-size:12px; color:#64748b; margin:4px;">Aucun participant inscrit.</p>';
+        deleteRunnerContainer.innerHTML = '<p style="font-size:12px; color:#64748b; margin:4px;">Aucun participant inscrit.</p>';
         return;
       }
 
-      let runnerCheckboxesHtml = '';
-      let donorRunnerOptions = '<option value="">-- Choisir un coureur --</option>';
+      globalRunnersArray.forEach((runner) => {
+        const displayName = runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || runner.email || runner.id;
+        const dist = (Number(runner.distanceKm) || 0).toFixed(2);
 
-      globalRunnersArray.forEach(r => {
-        runnerCheckboxesHtml += `
-          <label class="admin-checkbox-item">
-            <input type="checkbox" class="admin-runner-checkbox" value="${r.id}"> ${r.name} (${(r.distanceKm || 0).toFixed(2)} km)
-          </label>
+        // Liste remise à zéro des km
+        const resetRow = document.createElement('label');
+        resetRow.className = 'admin-checkbox-item';
+        resetRow.innerHTML = `
+          <span class="admin-checkbox-left">
+            <input type="checkbox" class="admin-reset-km-cb" value="${escapeHtml(runner.id)}">
+            <span>${escapeHtml(displayName)}</span>
+          </span>
+          <span style="font-weight:700; color:#059669; font-size:12px;">${dist} km</span>
         `;
-        donorRunnerOptions += `<option value="${r.id}">${r.name}</option>`;
+        resetKmContainer.appendChild(resetRow);
+
+        // Liste suppression participant
+        const delRow = document.createElement('label');
+        delRow.className = 'admin-checkbox-item';
+        delRow.innerHTML = `
+          <span class="admin-checkbox-left">
+            <input type="checkbox" class="admin-delete-runner-cb" value="${escapeHtml(runner.id)}">
+            <span>${escapeHtml(displayName)}</span>
+          </span>
+          <span style="color:#64748b; font-size:12px;">${dist} km</span>
+        `;
+        deleteRunnerContainer.appendChild(delRow);
+
+        // Select donateurs
+        const opt = document.createElement('option');
+        opt.value = runner.id;
+        opt.textContent = `${displayName} (${dist} km)`;
+        donorRunnerSelect.appendChild(opt);
       });
 
-      runnersContainer.innerHTML = runnerCheckboxesHtml;
-      donorRunnerSelect.innerHTML = donorRunnerOptions;
-      document.getElementById('adminDonorsCheckboxContainer').innerHTML = '<span style="color: #64748b; font-size: 12px;">Sélectionnez un coureur ci-dessus</span>';
+      loadDonorsCheckboxForAdmin();
+    }
+
+    function toggleSelectAllResetKm() {
+      const checkboxes = Array.from(document.querySelectorAll('.admin-reset-km-cb'));
+      if (checkboxes.length === 0) return;
+      const allChecked = checkboxes.every(cb => cb.checked);
+      checkboxes.forEach(cb => { cb.checked = !allChecked; });
+    }
+
+    async function adminResetSelectedRunnersKm() {
+      const checkedIds = Array.from(document.querySelectorAll('.admin-reset-km-cb:checked')).map(cb => cb.value);
+      if (checkedIds.length === 0) {
+        alert("Veuillez cocher au moins un participant dans la liste.");
+        return;
+      }
+
+      if (!confirm(`Remettre à 0 km (et temps à 00:00:00) pour ${checkedIds.length} participant(s) sélectionné(s) ?`)) {
+        return;
+      }
+
+      try {
+        await Promise.all(
+          checkedIds.map((id) =>
+            fetch(`${FIREBASE_BASE}/participants/${id}.json`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                distanceKm: 0,
+                elapsedSeconds: 0,
+                startTime: null,
+                startedAt: null
+              })
+            })
+          )
+        );
+        await fetchData();
+        populateAdminCheckboxes();
+        alert(`Kilomètres remis à 0 pour ${checkedIds.length} participant(s).`);
+      } catch (err) {
+        console.error("Erreur remise à zéro ciblée :", err);
+        alert("Erreur lors de la remise à zéro des kilomètres.");
+      }
+    }
+
+    async function adminDeleteSelectedRunners() {
+      const checkedIds = Array.from(document.querySelectorAll('.admin-delete-runner-cb:checked')).map(cb => cb.value);
+      if (checkedIds.length === 0) {
+        alert("Veuillez cocher au moins un participant à supprimer.");
+        return;
+      }
+      if (!confirm(`Supprimer définitivement ${checkedIds.length} participant(s) ?`)) return;
+
+      await Promise.all(
+        checkedIds.map((id) =>
+          fetch(`${FIREBASE_BASE}/participants/${id}.json`, { method: 'DELETE' })
+        )
+      );
+      if (checkedIds.includes(loggedRunnerId)) {
+        logoutRunner();
+      }
+      await fetchData();
+      populateAdminCheckboxes();
     }
 
     function loadDonorsCheckboxForAdmin() {
       const runnerId = document.getElementById('adminRunnerForDonorsSelect').value;
-      const donorsContainer = document.getElementById('adminDonorsCheckboxContainer');
+      const container = document.getElementById('adminDonorsCheckboxContainer');
+      container.innerHTML = '';
 
-      const runner = globalRunnersArray.find(r => r.id === runnerId);
-      if (!runner || !runner.pledges) {
-        donorsContainer.innerHTML = '<span style="color: #64748b; font-size: 12px;">Aucun donateur pour ce coureur.</span>';
+      if (!runnerId) {
+        container.innerHTML = '<p style="font-size:12px; color:#64748b; margin:4px;">Sélectionnez un participant ci-dessus.</p>';
         return;
       }
 
-      let donorCheckboxesHtml = '';
-      Object.keys(runner.pledges).forEach(donorKey => {
-        const donor = runner.pledges[donorKey];
-        donorCheckboxesHtml += `
-          <label class="admin-checkbox-item">
-            <input type="checkbox" class="admin-donor-checkbox" value="${donorKey}"> ${donor.donorName} (${donor.amountPerKm} CHF/km - ${donor.email})
-          </label>
-        `;
-      });
-      donorsContainer.innerHTML = donorCheckboxesHtml;
-    }
-
-    async function adminDeleteSelectedRunners() {
-      const checkboxes = document.querySelectorAll('.admin-runner-checkbox:checked');
-      if (checkboxes.length === 0) { alert("Veuillez cocher au moins un coureur à supprimer."); return; }
-
-      if (confirm(`Voulez-vous vraiment supprimer ${checkboxes.length} coureur(s) sélectionné(s) ?`)) {
-        for (const cb of checkboxes) {
-          await fetch(`${FIREBASE_BASE}/participants/${cb.value}.json`, { method: 'DELETE' });
-        }
-        alert("Coureur(s) supprimé(s) avec succès !");
-        fetchData();
-        setTimeout(populateAdminCheckboxes, 500);
+      const runner = globalRunnersArray.find(r => r.id === runnerId);
+      if (!runner || !runner.pledges) {
+        container.innerHTML = '<p style="font-size:12px; color:#64748b; margin:4px;">Aucun donateur pour ce participant.</p>';
+        return;
       }
+
+      Object.entries(runner.pledges).forEach(([pledgeKey, p]) => {
+        const row = document.createElement('label');
+        row.className = 'admin-checkbox-item';
+        row.innerHTML = `
+          <span class="admin-checkbox-left">
+            <input type="checkbox" class="admin-delete-donor-cb" value="${escapeHtml(pledgeKey)}">
+            <span>${escapeHtml(p.sponsorName || 'Donateur')}</span>
+          </span>
+          <span style="font-weight:700; color:#2563eb; font-size:12px;">${(Number(p.amountPerKm) || 0).toFixed(2)} CHF/km</span>
+        `;
+        container.appendChild(row);
+      });
     }
 
     async function adminDeleteSelectedDonors() {
       const runnerId = document.getElementById('adminRunnerForDonorsSelect').value;
-      const checkboxes = document.querySelectorAll('.admin-donor-checkbox:checked');
-      if (!runnerId) { alert("Veuillez sélectionner un coureur."); return; }
-      if (checkboxes.length === 0) { alert("Veuillez cocher au moins un donateur à supprimer."); return; }
-
-      if (confirm(`Voulez-vous supprimer ${checkboxes.length} donateur(s) sélectionné(s) ?`)) {
-        for (const cb of checkboxes) {
-          await fetch(`${FIREBASE_BASE}/participants/${runnerId}/pledges/${cb.value}.json`, { method: 'DELETE' });
-        }
-        alert("Donateur(s) supprimé(s) avec succès !");
-        fetchData();
-        setTimeout(loadDonorsCheckboxForAdmin, 500);
+      if (!runnerId) {
+        alert("Choisissez d'abord un participant.");
+        return;
       }
+      const checkedPledgeKeys = Array.from(document.querySelectorAll('.admin-delete-donor-cb:checked')).map(cb => cb.value);
+      if (checkedPledgeKeys.length === 0) {
+        alert("Cochez au moins un donateur à supprimer.");
+        return;
+      }
+      if (!confirm(`Supprimer ${checkedPledgeKeys.length} donateur(s) ?`)) return;
+
+      await Promise.all(
+        checkedPledgeKeys.map((key) =>
+          fetch(`${FIREBASE_BASE}/participants/${runnerId}/pledges/${key}.json`, { method: 'DELETE' })
+        )
+      );
+      await fetchData();
+      loadDonorsCheckboxForAdmin();
     }
 
-    async function handleGpxUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    async function triggerAdminReset() {
+      if (!confirm("⚠️ Remettre TOUTES les distances et temps de TOUS les participants à 0 ?")) return;
+      await Promise.all(
+        globalRunnersArray.map((r) =>
+          fetch(`${FIREBASE_BASE}/participants/${r.id}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              distanceKm: 0,
+              elapsedSeconds: 0,
+              startTime: null,
+              startedAt: null
+            })
+          })
+        )
+      );
+      await fetchData();
+      populateAdminCheckboxes();
+      alert("Toutes les distances ont été réinitialisées à 0.");
+    }
 
+    function handleGpxUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
       const reader = new FileReader();
       reader.onload = async function(e) {
-        const gpxText = e.target.result;
-
+        const content = e.target.result;
         await fetch(FIREBASE_GPX_URL, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(gpxText)
+          body: JSON.stringify({ content, uploadedAt: new Date().toISOString() })
         });
-
-        alert("Tracé GPX enregistré et publié pour tous les utilisateurs !");
-        loadSavedGpxTrack();
+        await loadSavedGpxTrack();
+        alert("Tracé GPX importé et enregistré sur Run for Cause !");
       };
       reader.readAsText(file);
     }
 
     async function removeGpxTrack() {
-      if (confirm("Voulez-vous supprimer le tracé GPX pour tout le monde ?")) {
-        await fetch(FIREBASE_GPX_URL, { method: 'DELETE' });
-        if (gpxLayer) {
-          map.removeLayer(gpxLayer);
-          gpxLayer = null;
-        }
-        alert("Tracé GPX supprimé.");
+      if (!confirm("Supprimer le tracé GPX actuel ?")) return;
+      await fetch(FIREBASE_GPX_URL, { method: 'DELETE' });
+      if (gpxLayer) {
+        map.removeLayer(gpxLayer);
+        gpxLayer = null;
       }
+      parseGpxMetrics("");
+      alert("Tracé GPX supprimé.");
+    }
+
+    // --- FACTURATION DONATEURS ---
+    function openDonorsBillingModal() {
+      const list = document.getElementById('donorsBillingList');
+      list.innerHTML = '';
+      let hasItems = false;
+
+      rankedRunnersArray.forEach((runner) => {
+        const dist = Number(runner.distanceKm) || 0;
+        const runnerName = runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || runner.email;
+        if (runner.pledges) {
+          Object.values(runner.pledges).forEach((p) => {
+            hasItems = true;
+            const rate = Number(p.amountPerKm) || 0;
+            const due = dist * rate;
+            const subject = encodeURIComponent(`Run for Cause — Parrainage de ${runnerName}`);
+            const body = encodeURIComponent(
+              `Bonjour ${p.sponsorName},\n\nMerci pour votre soutien à ${runnerName} lors de Run for Cause !\n` +
+              `Distance parcourue : ${dist.toFixed(2)} km\n` +
+              `Votre mise : ${rate.toFixed(2)} CHF/km\n` +
+              `Montant total : ${due.toFixed(2)} CHF\n\nSportivement,\nL'équipe Run for Cause (runforcauseyverdon@gmail.com)`
+            );
+
+            const div = document.createElement('div');
+            div.style.cssText = 'padding:10px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:8px; background:#f8fafc;';
+            div.innerHTML = `
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                <div>
+                  <strong>${escapeHtml(p.sponsorName)}</strong> (${escapeHtml(p.sponsorEmail || 'pas d\'email')})<br>
+                  <span style="font-size:12px; color:#475569;">Pour ${escapeHtml(runnerName)} • ${dist.toFixed(2)} km × ${rate.toFixed(2)} CHF</span>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-weight:800; color:#059669;">${due.toFixed(2)} CHF</div>
+                  ${p.sponsorEmail ? `<a href="mailto:${encodeURIComponent(p.sponsorEmail)}?subject=${subject}&body=${body}" style="font-size:12px; color:#2563eb; font-weight:700;">Envoyer e-mail</a>` : ''}
+                </div>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+      });
+
+      if (!hasItems) {
+        list.innerHTML = '<p style="color:#64748b; text-align:center;">Aucun parrainage enregistré pour le moment.</p>';
+      }
+      document.getElementById('donorsBillingModal').style.display = 'flex';
+    }
+    function closeDonorsBillingModal() { document.getElementById('donorsBillingModal').style.display = 'none'; }
+
+    // --- FICHE DÉTAILLÉE PARTICIPANT ---
+    function openRunnerDetail(runnerId) {
+      selectedRunnerId = runnerId;
+      const runnerIndex = rankedRunnersArray.findIndex(r => r.id === runnerId);
+      const runner = runnerIndex >= 0 ? rankedRunnersArray[runnerIndex] : globalRunnersArray.find(r => r.id === runnerId);
+      if (!runner) return;
+
+      const isMyOwnProfile = loggedRunnerId && runner.id === loggedRunnerId;
+      const { firstName, lastName } = splitRunnerNames(runner);
+      const displayName = runner.name || `${firstName} ${lastName}`.trim() || runner.email || 'Participant';
+
+      const dist = Number(runner.distanceKm) || 0;
+      const elapsedSec = Number(runner.elapsedSeconds) || 0;
+
+      let ratePerKm = 0;
+      const pledgesList = runner.pledges ? Object.values(runner.pledges) : [];
+      pledgesList.forEach(p => { ratePerKm += Number(p.amountPerKm) || 0; });
+      const collectedChf = dist * ratePerKm;
+
+      document.getElementById('detailConnectedBadge').style.display = isMyOwnProfile ? 'inline-block' : 'none';
+      document.getElementById('detailLogoutBtn').style.display = isMyOwnProfile ? 'block' : 'none';
+      document.getElementById('detailRunnerName').innerText = displayName;
+      document.getElementById('detailRunnerFirstName').innerText = firstName;
+      document.getElementById('detailRunnerLastName').innerText = lastName;
+
+      const emailRow = document.getElementById('detailRunnerEmailRow');
+      if (isMyOwnProfile && runner.email) {
+        emailRow.style.display = 'flex';
+        document.getElementById('detailRunnerEmail').innerText = runner.email;
+      } else {
+        emailRow.style.display = 'none';
+      }
+
+      document.getElementById('detailRunnerRank').innerText = runnerIndex >= 0 ? `#${runnerIndex + 1} / ${rankedRunnersArray.length}` : '-';
+      document.getElementById('detailRunnerStartTime').innerText = runner.startTime || 'Non démarré';
+      document.getElementById('detailRunnerElapsedTime').innerText = formatDuration(elapsedSec);
+      document.getElementById('detailRunnerDistance').innerText = `${dist.toFixed(2)} km`;
+      document.getElementById('detailRunnerPledgeSummary').innerText = `${ratePerKm.toFixed(2)} CHF/km (${pledgesList.length} parrain${pledgesList.length > 1 ? 's' : ''})`;
+      document.getElementById('detailRunnerCollectedDonations').innerText = `${collectedChf.toFixed(2)} CHF`;
+
+      if (gpxTotalDistanceKm > 0) {
+        const gainRunner = Math.round(getElevationGainAlongGpxAtDistance(dist));
+        const gainTotal = Math.round(gpxTotalElevationGainM);
+        document.getElementById('detailRunnerElevation').innerText = `+${gainRunner} m / +${gainTotal} m D+`;
+        const pct = Math.min(Math.max((dist / gpxTotalDistanceKm) * 100, 0), 100);
+        document.getElementById('detailRunnerTrackProgress').innerText = `${dist.toFixed(2)} / ${gpxTotalDistanceKm.toFixed(2)} km (${pct.toFixed(1)}%)`;
+        document.getElementById('detailRunnerProgressFill').style.width = `${pct}%`;
+      } else {
+        document.getElementById('detailRunnerElevation').innerText = 'Aucun tracé GPX';
+        document.getElementById('detailRunnerTrackProgress').innerText = 'Aucun tracé GPX';
+        document.getElementById('detailRunnerProgressFill').style.width = '0%';
+      }
+
+      const sponsorsContainer = document.getElementById('detailSponsorsList');
+      if (pledgesList.length === 0) {
+        sponsorsContainer.innerHTML = '<p style="color: #64748b; font-size: 13px; margin:0;">Aucun sponsor pour l\'instant.</p>';
+      } else {
+        sponsorsContainer.innerHTML = pledgesList.map(p => {
+          const r = Number(p.amountPerKm) || 0;
+          const total = dist * r;
+          return `
+            <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f1f5f9; font-size:13px;">
+              <span>🤝 <strong>${escapeHtml(p.sponsorName)}</strong> (${r.toFixed(2)} CHF/km)</span>
+              <span style="font-weight:700; color:#059669;">${total.toFixed(2)} CHF</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('runnerDetailModal').style.display = 'flex';
+      drawElevationProfile(dist);
+    }
+
+    function closeRunnerDetailModal() {
+      document.getElementById('runnerDetailModal').style.display = 'none';
+    }
+
+    // --- PARRAINAGE ---
+    function openSponsorModalFromDetail() {
+      closeRunnerDetailModal();
+      document.getElementById('sponsorModal').style.display = 'flex';
+    }
+    function closeSponsorModal() {
+      document.getElementById('sponsorModal').style.display = 'none';
+    }
+
+    async function handleSponsorSubmit(event) {
+      event.preventDefault();
+      if (!selectedRunnerId) return;
+
+      const sponsorName = document.getElementById('sponsorName').value.trim();
+      const sponsorEmail = document.getElementById('sponsorEmail').value.trim();
+      const sponsorPhone = document.getElementById('sponsorPhone').value.trim();
+      const amountPerKm = parseFloat(document.getElementById('sponsorAmount').value);
+
+      if (!sponsorName || !sponsorEmail || Number.isNaN(amountPerKm) || amountPerKm <= 0) {
+        alert("Veuillez remplir correctement le formulaire de parrainage.");
+        return;
+      }
+
+      await fetch(`${FIREBASE_BASE}/participants/${selectedRunnerId}/pledges.json`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sponsorName,
+          sponsorEmail,
+          sponsorPhone,
+          amountPerKm,
+          createdAt: new Date().toISOString()
+        })
+      });
+
+      document.getElementById('sponsorName').value = '';
+      document.getElementById('sponsorEmail').value = '';
+      document.getElementById('sponsorPhone').value = '';
+      document.getElementById('sponsorAmount').value = '';
+      closeSponsorModal();
+      await fetchData();
+      openRunnerDetail(selectedRunnerId);
+    }
+
+    // --- CHARGEMENT & SYNCHRONISATION FIREBASE ---
+    function renderLeaderboard() {
+      const container = document.getElementById('leaderboardList');
+      const query = (document.getElementById('runnerSearchInput').value || '').trim().toLowerCase();
+
+      const filtered = rankedRunnersArray.filter((runner) => {
+        const displayName = (runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`).toLowerCase();
+        return displayName.includes(query);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color:#64748b; text-align:center;">Aucun participant trouvé.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((runner) => {
+        const rank = rankedRunnersArray.findIndex(r => r.id === runner.id) + 1;
+        const dist = Number(runner.distanceKm) || 0;
+        let rate = 0;
+        if (runner.pledges) {
+          Object.values(runner.pledges).forEach(p => { rate += Number(p.amountPerKm) || 0; });
+        }
+        const totalChf = dist * rate;
+        const displayName = runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || runner.email || 'Participant';
+        const isMe = loggedRunnerId && runner.id === loggedRunnerId;
+
+        return `
+          <div class="runner-row" onclick="openRunnerDetail('${escapeHtml(runner.id)}')">
+            <div>
+              <strong>#${rank} ${escapeHtml(displayName)}</strong>
+              ${isMe ? '<span style="background:#dcfce7; color:#15803d; font-size:11px; font-weight:700; padding:2px 6px; border-radius:999px; margin-left:6px;">Moi</span>' : ''}
+              <div style="font-size:12px; color:#64748b;">
+                Temps : ${formatDuration(runner.elapsedSeconds)} • ${rate.toFixed(2)} CHF/km
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:800; color:#10b981;">${dist.toFixed(2)} km</div>
+              <div style="font-size:12px; font-weight:700; color:#059669;">${totalChf.toFixed(2)} CHF</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterLeaderboard() {
+      renderLeaderboard();
+    }
+
+    function updateMapMarkers() {
+      if (!map) return;
+      const activeIds = new Set();
+
+      rankedRunnersArray.forEach((runner) => {
+        const lat = Number(runner.latitude);
+        const lng = Number(runner.longitude);
+        if (!lat || !lng || Number.isNaN(lat) || Number.isNaN(lng)) return;
+
+        activeIds.add(runner.id);
+        const displayName = runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || 'Participant';
+        const dist = (Number(runner.distanceKm) || 0).toFixed(2);
+        const popupHtml = `<strong>${escapeHtml(displayName)}</strong><br>${dist} km`;
+
+        if (markers[runner.id]) {
+          markers[runner.id].setLatLng([lat, lng]);
+          markers[runner.id].setPopupContent(popupHtml);
+        } else {
+          markers[runner.id] = L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(popupHtml);
+        }
+      });
+
+      Object.keys(markers).forEach((id) => {
+        if (!activeIds.has(id)) {
+          map.removeLayer(markers[id]);
+          delete markers[id];
+        }
+      });
     }
 
     async function fetchData() {
       try {
-        const statusRes = await fetch(FIREBASE_STATUS_URL);
+        const [statusRes, partRes] = await Promise.all([
+          fetch(`${FIREBASE_STATUS_URL}?t=${Date.now()}`, { cache: "no-store" }),
+          fetch(`${FIREBASE_URL}?t=${Date.now()}`, { cache: "no-store" })
+        ]);
+
         const statusData = await statusRes.json();
-        isEventEnded = statusData ? Boolean(statusData.ended) : false;
-        updateEventStatusUI(isEventEnded);
+        isEventEnded = Boolean(statusData && statusData.ended);
+        updateEventBannerUI();
 
-        const res = await fetch(FIREBASE_URL);
-        const data = await res.json();
-        if (!data) {
+        const partData = await partRes.json();
+        if (partData) {
+          globalRunnersArray = Object.entries(partData).map(([id, val]) => ({
+            id,
+            ...val
+          }));
+        } else {
           globalRunnersArray = [];
-          document.getElementById('globalTotalPot').innerText = "0.00 CHF";
-          filterLeaderboard();
-          return;
         }
 
-        globalRunnersArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        rankedRunnersArray = [...globalRunnersArray].sort(
+          (a, b) => (Number(b.distanceKm) || 0) - (Number(a.distanceKm) || 0)
+        );
 
-        let globalTotalFunds = 0;
-        globalRunnersArray.forEach(runner => {
+        let globalPot = 0;
+        rankedRunnersArray.forEach((runner) => {
           const dist = Number(runner.distanceKm) || 0;
-          let pledgePerKmSum = 0;
+          let sumRate = 0;
           if (runner.pledges) {
-            Object.values(runner.pledges).forEach(s => {
-              pledgePerKmSum += Number(s.amountPerKm) || 0;
-            });
+            Object.values(runner.pledges).forEach(p => { sumRate += Number(p.amountPerKm) || 0; });
           }
-          globalTotalFunds += dist * pledgePerKmSum;
+          globalPot += dist * sumRate;
         });
+        document.getElementById('globalTotalPot').innerText = `${globalPot.toFixed(2)} CHF`;
 
-        document.getElementById('globalTotalPot').innerText = globalTotalFunds.toFixed(2) + " CHF";
-
-        if (!isEventEnded) {
-          updateMapMarkers(globalRunnersArray);
-        }
-        filterLeaderboard();
+        updateRunnerHeaderBar();
+        renderLeaderboard();
+        updateMapMarkers();
       } catch (err) {
-        console.error("Erreur de synchronisation :", err);
+        console.error("Erreur lors de la récupération des données Firebase :", err);
       }
     }
 
-    function updateMapMarkers(runners) {
-      runners.forEach(runner => {
-        if (runner.latitude && runner.longitude) {
-          const latLng = [runner.latitude, runner.longitude];
-          if (markers[runner.id]) {
-            markers[runner.id].setLatLng(latLng);
-          } else {
-            markers[runner.id] = L.marker(latLng).addTo(map).bindPopup(`<b>${runner.name}</b><br>${(runner.distanceKm || 0).toFixed(2)} km`);
-          }
-        }
-      });
-    }
-
-    function filterLeaderboard() {
-      const queryInput = document.getElementById('runnerSearchInput');
-      const query = queryInput ? queryInput.value.toLowerCase().trim() : '';
-      const container = document.getElementById('leaderboardList');
-      if (!container) return;
-
-      const filtered = globalRunnersArray.filter(r => (r.name || '').toLowerCase().includes(query));
-      filtered.sort((a, b) => (Number(b.distanceKm) || 0) - (Number(a.distanceKm) || 0));
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<p style="color: #64748b; text-align: center;">Aucun coureur trouvé.</p>';
-        return;
-      }
-
-      let html = '';
-      filtered.forEach((runner, index) => {
-        const dist = Number(runner.distanceKm) || 0;
-
-        let pledgePerKmSum = 0;
-        if (runner.pledges) {
-          Object.values(runner.pledges).forEach(s => {
-            pledgePerKmSum += Number(s.amountPerKm) || 0;
-          });
-        }
-        const totalFunds = dist * pledgePerKmSum;
-
-        let rankDisplay = `#${index + 1}`;
-        if (index === 0) rankDisplay = '🥇 1er';
-        else if (index === 1) rankDisplay = '🥈 2e';
-        else if (index === 2) rankDisplay = '🥉 3e';
-
-        html += `
-          <div class="runner-row" onclick="focusOnRunner('${runner.id}')">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="font-weight: bold; width: 35px; color: #64748b;">${rankDisplay}</span>
-              <span style="font-weight: 600; color: #0f172a;">${runner.name}</span>
-            </div>
-            <div style="text-align: right;">
-              <div style="color: #10b981; font-weight: bold;">${dist.toFixed(2)} km</div>
-              <div style="font-size: 12px; color: #64748b;">Cagnotte : ${totalFunds.toFixed(2)} CHF</div>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
-
-    function focusOnRunner(runnerId) {
-      selectedRunnerId = runnerId;
-      const runner = globalRunnersArray.find(r => r.id === runnerId);
-      if (!runner) return;
-
-      if (!isEventEnded && runner.latitude && runner.longitude && markers[runner.id]) {
-        map.setView([runner.latitude, runner.longitude], 16);
-        markers[runner.id].openPopup();
-      }
-
-      document.getElementById('detailRunnerName').innerText = runner.name;
-      document.getElementById('detailRunnerDistance').innerText = `Distance parcourue : ${(runner.distanceKm || 0).toFixed(2)} km`;
-
-      let sponsorsHtml = '';
-      if (runner.pledges) {
-        Object.values(runner.pledges).forEach(s => {
-          sponsorsHtml += `<div style="font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f1f5f9;">👤 <b>${s.donorName}</b> — ${s.amountPerKm} CHF/km</div>`;
-        });
-      } else {
-        sponsorsHtml = '<p style="color: #64748b; font-size: 13px;">Aucun sponsor pour l\'instant.</p>';
-      }
-      document.getElementById('detailSponsorsList').innerHTML = sponsorsHtml;
-      document.getElementById('runnerDetailModal').style.display = 'flex';
-    }
-
-    function closeRunnerDetailModal() { document.getElementById('runnerDetailModal').style.display = 'none'; }
-
-    function openSponsorModalFromDetail() {
-      if (isEventEnded) {
-        alert("L'événement est terminé, les parrainages sont fermés.");
-        return;
-      }
-      closeRunnerDetailModal();
-      document.getElementById('sponsorModal').style.display = 'flex';
-    }
-    function closeSponsorModal() { document.getElementById('sponsorModal').style.display = 'none'; }
-
-    async function handleSponsorSubmit(e) {
-      e.preventDefault();
-      if (!selectedRunnerId) return;
-
-      const name = document.getElementById('sponsorName').value;
-      const email = document.getElementById('sponsorEmail').value;
-      const phone = document.getElementById('sponsorPhone').value;
-      const amount = Number(document.getElementById('sponsorAmount').value);
-
-      const sponsorKey = email.toLowerCase().replace(/[^a-z0-9]/g, '_');
-
-      const sponsorData = {
-        donorName: name,
-        email: email,
-        phone: phone || '',
-        amountPerKm: amount,
-        registeredAt: new Date().toISOString()
-      };
-
-      try {
-        await fetch(`${FIREBASE_BASE}/participants/${selectedRunnerId}/pledges/${sponsorKey}.json`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(sponsorData)
-        });
-
-        alert(`Merci ${name} ! Votre parrainage a bien été pris en compte.`);
-        document.getElementById('sponsorName').value = '';
-        document.getElementById('sponsorEmail').value = '';
-        document.getElementById('sponsorPhone').value = '';
-        document.getElementById('sponsorAmount').value = '';
-        closeSponsorModal();
-        fetchData();
-      } catch (err) {
-        console.error("Erreur d'enregistrement du sponsor :", err);
-        alert("Erreur lors de l'enregistrement.");
-      }
-    }
-
-    async function triggerAdminReset() {
-      if (confirm("⚠️ Voulez-vous vraiment réinitialiser toutes les distances à 0 ?")) {
-        const updates = {};
-        globalRunnersArray.forEach(r => { updates[`/${r.id}/distanceKm`] = 0; });
-        await fetch(`${FIREBASE_URL}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updates)
-        });
-        alert("Réinitialisation effectuée !");
-        fetchData();
-      }
-    }
-
-    window.onload = async () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       initMap();
-      loadSavedGpxTrack();
+      await loadSavedGpxTrack();
       await fetchData();
-
-      const savedUserKey = localStorage.getItem('runForCauseUserKey');
-      if (savedUserKey && globalRunnersArray.length > 0) {
-        const found = globalRunnersArray.find(r => r.id === savedUserKey);
-        if (found) {
-          currentRunnerUser = found;
-          updateRunnerPanelUI();
-        }
-      }
-
-      setInterval(fetchData, 10000);
-    };
+      setInterval(fetchData, 5000);
+    });
   </script>
 </body>
 </html>
