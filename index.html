@@ -70,7 +70,7 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .btn-runner {
+    .btn-participant {
       background: #10b981;
       color: white;
       border: none;
@@ -81,7 +81,7 @@
       transition: background 0.2s;
       font-size: 14px;
     }
-    .btn-runner:hover { background: #059669; }
+    .btn-participant:hover { background: #059669; }
     .btn-my-profile {
       background: #2563eb;
       color: white;
@@ -416,11 +416,11 @@
     <!-- Barre d'actions -->
     <div class="action-bar">
       <div class="action-bar-left">
-        <button id="runnerPortalBtn" class="btn-runner" onclick="openRunnerAuthModal(false)">
-          🏃‍♂️ Coureur / Marcheur
+        <button id="participantPortalBtn" class="btn-participant" onclick="openParticipantAuthModal(false)">
+          👤 Participant
         </button>
-        <button id="myRunnerSheetBtn" class="btn-my-profile" style="display: none;" onclick="openLoggedRunnerDetail()">
-          👤 Ma fiche participant
+        <button id="myParticipantSheetBtn" class="btn-my-profile" style="display: none;" onclick="openLoggedParticipantDetail()">
+          📋 Ma fiche participant
         </button>
       </div>
       <button class="btn-admin" onclick="triggerAdminMenu()">⚙️ Paramètres</button>
@@ -444,15 +444,15 @@
     </div>
   </div>
 
-  <!-- Modal Connexion / Inscription Coureur & Marcheur -->
-  <div id="runnerAuthModal" class="modal" style="display: none;" onclick="closeRunnerAuthModal()">
+  <!-- Modal Connexion / Inscription Participant -->
+  <div id="participantAuthModal" class="modal" style="display: none;" onclick="closeParticipantAuthModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <span class="close-btn" onclick="closeRunnerAuthModal()">&times;</span>
-      <h3 id="runnerAuthTitle" style="margin-top:0; margin-bottom:4px;">Connexion Coureur / Marcheur 🏃‍♂️</h3>
+      <span class="close-btn" onclick="closeParticipantAuthModal()">&times;</span>
+      <h3 id="participantAuthTitle" style="margin-top:0; margin-bottom:4px;">Connexion Participant 👤</h3>
       <p class="modal-subtitle">Run for Cause • Accédez à votre fiche personnelle et vos statistiques</p>
 
-      <form onsubmit="handleRunnerAuthSubmit(event)">
-        <div id="runnerRegisterFields" style="display: none;">
+      <form onsubmit="handleParticipantAuthSubmit(event)">
+        <div id="participantRegisterFields" style="display: none;">
           <div class="form-group">
             <label>Prénom <span style="color:#ef4444;">*</span> :</label>
             <input type="text" id="authFirstName" placeholder="Ex: Camille">
@@ -474,11 +474,11 @@
           <div id="authPasswordHint" style="font-size: 11px; margin-top: 4px; font-weight: 600;"></div>
         </div>
 
-        <button type="submit" id="runnerAuthSubmitBtn" class="submit-btn">Se connecter</button>
+        <button type="submit" id="participantAuthSubmitBtn" class="submit-btn">Se connecter</button>
       </form>
 
-      <button type="button" id="runnerAuthToggleBtn" class="btn-outline" onclick="toggleRunnerAuthMode()">
-        Nouveau coureur / marcheur ? S'inscrire
+      <button type="button" id="participantAuthToggleBtn" class="btn-outline" onclick="toggleParticipantAuthMode()">
+        Nouveau participant ? S'inscrire
       </button>
     </div>
   </div>
@@ -500,15 +500,15 @@
 
       <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
 
-      <!-- Remise à zéro sélective des km, du temps et du dénivelé -->
+      <!-- Remise à zéro sélective des km, du temps passé et du dénivelé -->
       <div class="form-group">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-          <label style="margin:0;">🔄 Remettre km, temps & dénivelé à 0 (sélection) :</label>
+          <label style="margin:0;">🔄 Remettre km, temps passé & dénivelé à 0 (sélection) :</label>
           <button type="button" class="small-link-btn" onclick="toggleSelectAllResetKm()">Tout cocher / décocher</button>
         </div>
         <div id="adminResetKmCheckboxContainer" class="admin-checkbox-list"></div>
         <button onclick="adminResetSelectedRunnersKm()" class="btn-warning" style="width: 100%;">
-          Remettre km, temps & dénivelé à 0 (participants cochés)
+          Remettre km, temps passé & dénivelé à 0 (participants cochés)
         </button>
       </div>
 
@@ -549,7 +549,7 @@
       <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
 
       <button onclick="triggerAdminReset()" class="btn-danger" style="width: 100%; background: #991b1b; margin-bottom: 15px;">
-        ⚠️ Réinitialiser toutes les distances, temps & dénivelés à 0
+        ⚠️ Réinitialiser toutes les distances, temps passé & dénivelés à 0
       </button>
 
       <button onclick="closeAdminModal()" class="btn-secondary">Fermer les paramètres</button>
@@ -644,7 +644,7 @@
       </div>
 
       <button class="submit-btn" id="modalSponsorBtn" onclick="openSponsorModalFromDetail()">Soutenir sur Run for Cause</button>
-      <button type="button" id="detailLogoutBtn" class="btn-danger" style="width:100%; margin-top:10px; padding:10px; display:none;" onclick="logoutRunner()">
+      <button type="button" id="detailLogoutBtn" class="btn-danger" style="width:100%; margin-top:10px; padding:10px; display:none;" onclick="logoutParticipant()">
         Se déconnecter de mon compte participant
       </button>
     </div>
@@ -687,7 +687,7 @@
     const FIREBASE_URL = `${FIREBASE_BASE}/participants.json`;
     const FIREBASE_STATUS_URL = `${FIREBASE_BASE}/eventStatus.json`;
     const FIREBASE_GPX_URL = `${FIREBASE_BASE}/gpxTrack.json`;
-    const STORAGE_RUNNER_KEY = "runforcause_web_runner_id";
+    const STORAGE_PARTICIPANT_KEY = "runforcause_web_participant_id";
 
     let map;
     let markers = {};
@@ -699,8 +699,8 @@
     let globalRunnersArray = [];
     let rankedRunnersArray = [];
     let selectedRunnerId = null;
-    let loggedRunnerId = localStorage.getItem(STORAGE_RUNNER_KEY) || null;
-    let isRunnerRegisterMode = false;
+    let loggedParticipantId = localStorage.getItem(STORAGE_PARTICIPANT_KEY) || null;
+    let isParticipantRegisterMode = false;
     let isEventEnded = false;
 
     function makeUserKey(email) {
@@ -1013,66 +1013,66 @@
       }
     }
 
-    // --- CONNEXION / INSCRIPTION COUREUR & MARCHEUR ---
-    function updateRunnerHeaderBar() {
-      const portalBtn = document.getElementById('runnerPortalBtn');
-      const mySheetBtn = document.getElementById('myRunnerSheetBtn');
+    // --- CONNEXION / INSCRIPTION PARTICIPANT ---
+    function updateParticipantHeaderBar() {
+      const portalBtn = document.getElementById('participantPortalBtn');
+      const mySheetBtn = document.getElementById('myParticipantSheetBtn');
       if (!portalBtn || !mySheetBtn) return;
 
-      const me = loggedRunnerId
-        ? globalRunnersArray.find(r => r.id === loggedRunnerId)
+      const me = loggedParticipantId
+        ? globalRunnersArray.find(r => r.id === loggedParticipantId)
         : null;
 
       if (me) {
         const displayName = me.name || `${me.firstName || ''} ${me.lastName || ''}`.trim() || me.email;
-        portalBtn.innerText = `🏃‍♂️ ${displayName}`;
+        portalBtn.innerText = `👤 ${displayName}`;
         mySheetBtn.style.display = 'inline-block';
       } else {
-        portalBtn.innerText = '🏃‍♂️ Coureur / Marcheur';
+        portalBtn.innerText = '👤 Participant';
         mySheetBtn.style.display = 'none';
       }
     }
 
-    function openRunnerAuthModal(registerMode = false) {
-      if (loggedRunnerId) {
-        const me = globalRunnersArray.find(r => r.id === loggedRunnerId);
+    function openParticipantAuthModal(registerMode = false) {
+      if (loggedParticipantId) {
+        const me = globalRunnersArray.find(r => r.id === loggedParticipantId);
         if (me) {
           openRunnerDetail(me.id);
           return;
         }
       }
-      isRunnerRegisterMode = registerMode;
-      syncRunnerAuthModalUI();
-      document.getElementById('runnerAuthModal').style.display = 'flex';
+      isParticipantRegisterMode = registerMode;
+      syncParticipantAuthModalUI();
+      document.getElementById('participantAuthModal').style.display = 'flex';
     }
 
-    function closeRunnerAuthModal() {
-      document.getElementById('runnerAuthModal').style.display = 'none';
+    function closeParticipantAuthModal() {
+      document.getElementById('participantAuthModal').style.display = 'none';
       document.getElementById('authPassword').value = '';
       document.getElementById('authPasswordHint').innerText = '';
     }
 
-    function toggleRunnerAuthMode() {
-      isRunnerRegisterMode = !isRunnerRegisterMode;
-      syncRunnerAuthModalUI();
+    function toggleParticipantAuthMode() {
+      isParticipantRegisterMode = !isParticipantRegisterMode;
+      syncParticipantAuthModalUI();
     }
 
-    function syncRunnerAuthModalUI() {
-      const title = document.getElementById('runnerAuthTitle');
-      const regFields = document.getElementById('runnerRegisterFields');
-      const submitBtn = document.getElementById('runnerAuthSubmitBtn');
-      const toggleBtn = document.getElementById('runnerAuthToggleBtn');
+    function syncParticipantAuthModalUI() {
+      const title = document.getElementById('participantAuthTitle');
+      const regFields = document.getElementById('participantRegisterFields');
+      const submitBtn = document.getElementById('participantAuthSubmitBtn');
+      const toggleBtn = document.getElementById('participantAuthToggleBtn');
 
-      if (isRunnerRegisterMode) {
-        title.innerText = 'Inscription Coureur / Marcheur 📝';
+      if (isParticipantRegisterMode) {
+        title.innerText = 'Inscription Participant 📝';
         regFields.style.display = 'block';
         submitBtn.innerText = 'Créer mon compte participant';
         toggleBtn.innerText = 'Déjà inscrit ? Se connecter';
       } else {
-        title.innerText = 'Connexion Coureur / Marcheur 🏃‍♂️';
+        title.innerText = 'Connexion Participant 👤';
         regFields.style.display = 'none';
         submitBtn.innerText = 'Se connecter';
-        toggleBtn.innerText = 'Nouveau coureur / marcheur ? S’inscrire';
+        toggleBtn.innerText = 'Nouveau participant ? S’inscrire';
       }
       updateAuthPasswordHint();
     }
@@ -1080,7 +1080,7 @@
     function updateAuthPasswordHint() {
       const hint = document.getElementById('authPasswordHint');
       const pwd = document.getElementById('authPassword').value;
-      if (!isRunnerRegisterMode || !pwd) {
+      if (!isParticipantRegisterMode || !pwd) {
         hint.innerText = '';
         return;
       }
@@ -1093,7 +1093,7 @@
       }
     }
 
-    async function handleRunnerAuthSubmit(event) {
+    async function handleParticipantAuthSubmit(event) {
       event.preventDefault();
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value.trim();
@@ -1105,7 +1105,7 @@
         return;
       }
 
-      if (isRunnerRegisterMode) {
+      if (isParticipantRegisterMode) {
         if (!firstName || !lastName) {
           alert("Veuillez renseigner votre prénom et votre nom.");
           return;
@@ -1123,7 +1123,7 @@
         const res = await fetch(`${FIREBASE_BASE}/participants/${userKey}.json`);
         const existing = await res.json();
 
-        if (isRunnerRegisterMode) {
+        if (isParticipantRegisterMode) {
           if (existing && existing.password) {
             alert("Un compte existe déjà avec cet e-mail sur Run for Cause. Passez en mode Connexion.");
             return;
@@ -1150,9 +1150,9 @@
             body: JSON.stringify(newRunner)
           });
 
-          loggedRunnerId = userKey;
-          localStorage.setItem(STORAGE_RUNNER_KEY, userKey);
-          closeRunnerAuthModal();
+          loggedParticipantId = userKey;
+          localStorage.setItem(STORAGE_PARTICIPANT_KEY, userKey);
+          closeParticipantAuthModal();
           await fetchData();
           openRunnerDetail(userKey);
         } else {
@@ -1165,9 +1165,9 @@
             return;
           }
 
-          loggedRunnerId = userKey;
-          localStorage.setItem(STORAGE_RUNNER_KEY, userKey);
-          closeRunnerAuthModal();
+          loggedParticipantId = userKey;
+          localStorage.setItem(STORAGE_PARTICIPANT_KEY, userKey);
+          closeParticipantAuthModal();
           await fetchData();
           openRunnerDetail(userKey);
         }
@@ -1177,18 +1177,18 @@
       }
     }
 
-    function openLoggedRunnerDetail() {
-      if (!loggedRunnerId) {
-        openRunnerAuthModal(false);
+    function openLoggedParticipantDetail() {
+      if (!loggedParticipantId) {
+        openParticipantAuthModal(false);
         return;
       }
-      openRunnerDetail(loggedRunnerId);
+      openRunnerDetail(loggedParticipantId);
     }
 
-    function logoutRunner() {
-      loggedRunnerId = null;
-      localStorage.removeItem(STORAGE_RUNNER_KEY);
-      updateRunnerHeaderBar();
+    function logoutParticipant() {
+      loggedParticipantId = null;
+      localStorage.removeItem(STORAGE_PARTICIPANT_KEY);
+      updateParticipantHeaderBar();
       closeRunnerDetailModal();
     }
 
@@ -1294,7 +1294,7 @@
         return;
       }
 
-      if (!confirm(`Remettre à 0 les km, le temps (00:00:00) et le placement dénivelé (0.00 km) pour ${checkedIds.length} participant(s) sélectionné(s) ?`)) {
+      if (!confirm(`Remettre à 0 les km, le temps passé (00:00:00) et le placement dénivelé (0.00 km) pour ${checkedIds.length} participant(s) sélectionné(s) ?`)) {
         return;
       }
 
@@ -1316,7 +1316,7 @@
         await fetchData();
         populateAdminCheckboxes();
         refreshOpenDetailIfAffected(checkedIds);
-        alert(`Kilomètres, temps et dénivelé remis à 0 pour ${checkedIds.length} participant(s).`);
+        alert(`Kilomètres, temps passé et dénivelé remis à 0 pour ${checkedIds.length} participant(s).`);
       } catch (err) {
         console.error("Erreur remise à zéro ciblée :", err);
         alert("Erreur lors de la remise à zéro.");
@@ -1336,8 +1336,8 @@
           fetch(`${FIREBASE_BASE}/participants/${id}.json`, { method: 'DELETE' })
         )
       );
-      if (checkedIds.includes(loggedRunnerId)) {
-        logoutRunner();
+      if (checkedIds.includes(loggedParticipantId)) {
+        logoutParticipant();
       }
       await fetchData();
       populateAdminCheckboxes();
@@ -1396,7 +1396,7 @@
     }
 
     async function triggerAdminReset() {
-      if (!confirm("⚠️ Remettre TOUTES les distances, temps et dénivelés de TOUS les participants à 0 ?")) return;
+      if (!confirm("⚠️ Remettre TOUTES les distances, temps passé et dénivelés de TOUS les participants à 0 ?")) return;
       const allIds = globalRunnersArray.map((r) => r.id);
       await Promise.all(
         globalRunnersArray.map((r) =>
@@ -1415,7 +1415,7 @@
       await fetchData();
       populateAdminCheckboxes();
       refreshOpenDetailIfAffected(allIds);
-      alert("Toutes les distances, temps et dénivelés ont été réinitialisés à 0.");
+      alert("Toutes les distances, temps passé et dénivelés ont été réinitialisés à 0.");
     }
 
     function handleGpxUpload(event) {
@@ -1501,7 +1501,7 @@
       const runner = runnerIndex >= 0 ? rankedRunnersArray[runnerIndex] : globalRunnersArray.find(r => r.id === runnerId);
       if (!runner) return;
 
-      const isMyOwnProfile = loggedRunnerId && runner.id === loggedRunnerId;
+      const isMyOwnProfile = loggedParticipantId && runner.id === loggedParticipantId;
       const { firstName, lastName } = splitRunnerNames(runner);
       const displayName = runner.name || `${firstName} ${lastName}`.trim() || runner.email || 'Participant';
 
@@ -1639,7 +1639,7 @@
         }
         const totalChf = dist * rate;
         const displayName = runner.name || `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || runner.email || 'Participant';
-        const isMe = loggedRunnerId && runner.id === loggedRunnerId;
+        const isMe = loggedParticipantId && runner.id === loggedParticipantId;
 
         return `
           <div class="runner-row" onclick="openRunnerDetail('${escapeHtml(runner.id)}')">
@@ -1731,7 +1731,7 @@
         });
         document.getElementById('globalTotalPot').innerText = `${globalPot.toFixed(2)} CHF`;
 
-        updateRunnerHeaderBar();
+        updateParticipantHeaderBar();
         renderLeaderboard();
         updateMapMarkers();
       } catch (err) {
